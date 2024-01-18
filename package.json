@@ -1,0 +1,26 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "Quiz WebApp to help students be prepared for the exams",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-db": "cat db_schema.sql | sqlite3 database.db #build anew database from the sql file",
+    "clean-db": "rm database.db #remove the old database",
+    "build-db-win": "sqlite3 database.db < db_schema.sql",
+    "npm build-database": "sqlite3 database.db < db_schema.sql",
+    "clean-db-win": "del database.db",
+    "npm clean-database": "del database.db",
+    "start": "node index.js"}
+    ,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.5",
+    "run-script-os": "^1.1.6",
+    "sass": "^1.63.6",
+    "typescript": "^5.1.6"
+  }
+}
