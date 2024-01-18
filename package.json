@@ -1,0 +1,15 @@
+{
+  "name": "database",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-db": "cat database.sql | sqlite3 database.db #build anew database from the sql file",
+    "clean-db": "rm database.db #remove the old database",
+    "build-db-win": "sqlite3 database.db < database.sql",
+    "npm build-database": "sqlite3 database.db < database.sql",
+    "clean-db-win": "del database.db",
+    "npm clean-database": "del database.db",
+    "start": "node index.js"
+  }
+}

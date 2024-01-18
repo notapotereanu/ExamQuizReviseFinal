@@ -1,26 +1,38 @@
 {
-  "name": "quiz",
-  "version": "1.0.0",
-  "description": "Quiz WebApp to help students be prepared for the exams",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build-db": "cat database.sql | sqlite3 database.db #build anew database from the sql file",
-    "clean-db": "rm database.db #remove the old database",
-    "build-db-win": "sqlite3 database.db < database.sql",
-    "clean-db-win": "del database.db",
-    "start": "node index.js"
-  },
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
   },
-  "devDependencies": {
-    "parcel-bundler": "^1.12.5",
-    "run-script-os": "^1.1.6",
-    "sass": "^1.63.6",
-    "typescript": "^5.1.6"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

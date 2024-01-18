@@ -51,8 +51,11 @@ CREATE TABLE mockArticles (
 );
 
 INSERT INTO users (user_id, username, password, questionsIDTaken, questionsIDAttempted, questionsIDLiked, questionsIDDisliked, questionsIDStared) VALUES
-(1, 'User1', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
-(2, 'User2', 'pass456', '[2]', '[]', '[]', '[1]', '[]');
+(1, 'Andrian', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
+(2, 'Klara', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
+(3, 'Rishab', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
+(4, 'Bruce', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
+(5, 'Abdul', 'pass456', '[2]', '[]', '[]', '[1]', '[]');
 
 INSERT INTO module (module_id, moduleType, title, description, linkToGithub, linkToSyllabus) VALUES
 (1, 'Math', 'Basic Math', 'This module covers basic mathematics.', 'http://github.com/mathmodule', 'http://example.com/syllabus/math'),

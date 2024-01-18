@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('../database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -28,5 +28,5 @@ def get_questions():
     conn.close()
     return jsonify([dict(row) for row in questions])
 
-    if __name__ == '__main__':
+if __name__ == '__main__':
     app.run(debug=True)
