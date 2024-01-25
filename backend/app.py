@@ -51,5 +51,27 @@ def search():
         'quizzes': [dict(row) for row in quizzes]
     })
 
+@app.route('/leaderboard', methods=['GET'])
+def leaderboard():
+    conn = get_db_connection()
+
+    # get the top five users with most questions written
+    leaderboard_query = '''
+    SELECT u.username, COUNT(q.question_id) as question_count
+    FROM users u
+    JOIN questions q ON u.user_id = q.author_id
+    GROUP BY u.user_id
+    ORDER BY question_count DESC
+    LIMIT 5
+    '''
+
+    leaderboard_results = conn.execute(leaderboard_query).fetchall()
+    conn.close()
+
+    # Format the results into a list of dictionaries
+    leaderboard_data = [{'username': row['username'], 'question_count': row['question_count']} for row in leaderboard_results]
+
+    return jsonify(leaderboard_data)
+
 if __name__ == '__main__':
     app.run(debug=True)
