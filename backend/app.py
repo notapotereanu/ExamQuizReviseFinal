@@ -28,5 +28,28 @@ def get_questions():
     conn.close()
     return jsonify([dict(row) for row in questions])
 
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('query', '')  # Get the search query from URL parameters
+    conn = get_db_connection()
+
+    # Search for users
+    users = conn.execute('SELECT * FROM users WHERE username LIKE ?', ('%' + query + '%',)).fetchall()
+
+    # Search for quizzes (assuming you're searching by module title)
+    quizzes = conn.execute('''
+        SELECT q.* FROM quiz q
+        JOIN module m ON q.module_id = m.module_id
+        WHERE m.title LIKE ?
+    ''', ('%' + query + '%',)).fetchall()
+
+    conn.close()
+
+    # Combine results into a single JSON response
+    return jsonify({
+        'users': [dict(row) for row in users],
+        'quizzes': [dict(row) for row in quizzes]
+    })
+
 if __name__ == '__main__':
     app.run(debug=True)
