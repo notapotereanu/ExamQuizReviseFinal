@@ -36,12 +36,8 @@ def search():
     # Search for users
     users = conn.execute('SELECT * FROM users WHERE username LIKE ?', ('%' + query + '%',)).fetchall()
 
-    # Search for quizzes (assuming you're searching by module title)
-    quizzes = conn.execute('''
-        SELECT q.* FROM quiz q
-        JOIN module m ON q.module_id = m.module_id
-        WHERE m.title LIKE ?
-    ''', ('%' + query + '%',)).fetchall()
+    # Search for quizzes by module title
+    quizzes = conn.execute('SELECT * FROM module WHERE title LIKE ?', ('%' + query + '%',)).fetchall()
 
     conn.close()
 
