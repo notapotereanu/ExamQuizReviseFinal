@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Toolbar,  Button,TextField } from '@material-ui/core';
+import { AppBar, Toolbar,  Button, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const Header = () => {
 
   return (
     <AppBar>
-      <Toolbar>
+      <Toolbar style={{ fontFamily: 'Roboto, sans-serif' }}>
         <Button edge="start" color="inherit" aria-label="logo" style={{ marginRight: '20px' }} onClick={() => navigate('/')}>
           <img src="/logo.png" alt="Logo" style={{ height: '30px' }} />
         </Button>

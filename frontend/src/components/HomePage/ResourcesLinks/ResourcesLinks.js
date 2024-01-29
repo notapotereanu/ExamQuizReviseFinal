@@ -11,7 +11,7 @@ const ResourceLinks = () => {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
       {links.map((link, index) => (
-        <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '40px', backgroundImage: `url(${link.backgroundUrl})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#f9f9f9', borderRadius: '10px', textAlign: 'center', color: '#333', textDecoration: 'none', fontSize: '20px', fontWeight: 'bold' }}>
+        <a key={index} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '40px', backgroundImage: `url(${link.backgroundUrl})`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundColor: '#f9f9f9', borderRadius: '10px', textAlign: 'center', color: '#333', textDecoration: 'none', fontSize: '20px', fontWeight: 'bold', fontFamily: 'Roboto, sans-serif' }}>
           {link.name}
         </a>
       ))}

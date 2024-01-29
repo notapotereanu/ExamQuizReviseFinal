@@ -8,14 +8,13 @@ const useStyles = makeStyles((theme) => ({
   grow: { flexGrow: 1, }, 
   logo: { cursor: 'pointer', }, }));
 
-
 const Footer = () => {
   const classes = useStyles();
   const navigate = useNavigate();
 
   return (
     <AppBar position="static" color="primary" className={classes.appBar}>
-      <Toolbar style={{ display: 'flex', flexDirection: 'column' }}>
+      <Toolbar style={{ display: 'flex', flexDirection: 'column', fontFamily: 'Roboto, sans-serif' }}>
         <div>
           <Button edge="start" color="inherit" aria-label="logo" className={classes.logo} onClick={() => navigate('/')}>
             <img src="/logo.png" alt="Logo" style={{ height: '20px' }} /> {/* Adjust the height as needed */}

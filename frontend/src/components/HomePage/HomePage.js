@@ -29,10 +29,10 @@ const HomePage = () => {
   ];
 
   return (
-    <div style={{ marginBottom: '100px' }}> { }
+    <div style={{ marginBottom: '100px', fontFamily: 'Roboto, sans-serif' }}>
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '80px' }}>
         <div style={{ display: 'flex', width: '80%', margin: '0 auto' }}>
-          <div style={{ flex: 2, paddingRight: '10px', width: '70%', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}> { }
+          <div style={{ flex: 2, paddingRight: '10px', width: '70%', margin: '0 auto' }}>
             <Button
               variant="contained" color="primary" size="large" onClick={() => navigate('/courseSelection')}
               style={{ width: '100%', height: '60px', marginBottom: '20px' }}> Select a Course for Quiz </Button>
