@@ -8,8 +8,7 @@ const CourseInformation = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Header />
-      <Footer />
+      <p>CourseInformation</p>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import Button from '@material-ui/core/Button';
 import { useNavigate } from 'react-router-dom';
+import Leaderboard from './LeaderBoard/LeaderBoard';
+import MockArticles from './MockArticles/MockArticles';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -14,35 +14,29 @@ const HomePage = () => {
     { id: 3, title: 'News 3', content: 'This is the third news item.', url: '/news3' },
   ];
 
+  const leaderboardData = [
+    { id: 1, name: 'Test', stars: 5, score: 100 },
+    { id: 2, name: 'Bar', stars: 4, score: 90 },
+    { id: 3, name: 'Foo', stars: 3, score: 80 },
+    { id: 4, name: 'Beppino', stars: 2, score: 70 },
+    { id: 5, name: 'Player 5', stars: 1, score: 60 },
+  ];
+
   return (
-    <div>
-      <Header />
+    <div style={{ marginBottom: '100px' }}> { }
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '80px' }}>
         <div style={{ display: 'flex', width: '80%', margin: '0 auto' }}>
-          <div style={{ flex: 2, paddingRight: '10px', width: '70%', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}> {/* Adjust width and font family here */}
-            <Button variant="contained" color="primary" size="large" onClick={() => navigate('/courseSelection')} style={{ width: '100%', marginBottom: '20px' }}>
-              Select a Course for Quiz
-            </Button>
-            <div style={{ padding: '20px', backgroundColor: '#f9f9f9', borderRadius: '10px' }}>
-              <h1 style={{ textAlign: 'center', color: '#333', marginBottom: '20px', fontSize: '2em' }}>Notices and Events</h1> {/* Adjust font size here */}
-              {/* Render news from mock data */}
-              {newsData.map((news, index) => (
-                <div key={news.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', backgroundColor: index % 2 === 0 ? '#fff' : '#eee', borderRadius: '5px' }}>
-                  <a href={news.url} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h2 style={{ marginBottom: '10px', fontSize: '1.5em' }}>{news.title}</h2> {/* Adjust font size here */}
-                  </a>
-                  <p style={{ marginTop: '0', fontSize: '1em' }}>{news.content}</p> {/* Adjust font size here */}
-                  {index < newsData.length - 1 && <hr style={{ width: '100%', borderTop: '1px solid #ddd' }} />} {/* Add a styled divider between news items */}
-                </div>
-              ))}
-            </div>
+          <div style={{ flex: 2, paddingRight: '10px', width: '70%', margin: '0 auto', fontFamily: 'Arial, sans-serif' }}> { }
+            <Button
+              variant="contained" color="primary" size="large" onClick={() => navigate('/courseSelection')}
+              style={{ width: '100%', height: '60px', marginBottom: '20px' }}> Select a Course for Quiz </Button>
+            <MockArticles newsData={newsData} />
           </div>
           <div style={{ flex: 1 }}>
-            {/* Content for the second column (1/3 of the page) goes here */}
+            <Leaderboard leaderboardData={leaderboardData} />
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

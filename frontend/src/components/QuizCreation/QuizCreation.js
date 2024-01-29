@@ -1,6 +1,4 @@
 import React from 'react';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import { useNavigate } from 'react-router-dom';
 
 const QuizCreation = () => {
@@ -8,8 +6,7 @@ const QuizCreation = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Header />
-      <Footer />
+      <p>QuizCreation</p>
     </div>
   );
 };

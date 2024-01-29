@@ -8,8 +8,7 @@ const QuizResponse = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <Header />
-      <Footer />
+      <p>Hello</p>
     </div>
   );
 };
