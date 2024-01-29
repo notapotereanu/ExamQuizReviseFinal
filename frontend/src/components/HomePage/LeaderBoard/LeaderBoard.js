@@ -8,20 +8,20 @@ const Leaderboard = ({ leaderboardData }) => {
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '10px', backgroundColor: '#ddd', borderRadius: '5px', marginBottom: '10px' }}>
         <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-          <h3>Name</h3>
+          <h3 style={{ color: '#333', fontSize: '20px', fontWeight: 'bold' }}>Name</h3>
         </div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <h3>Stars</h3>
+          <h3 style={{ color: '#333', fontSize: '20px', fontWeight: 'bold' }}>Stars</h3>
         </div>
         <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <h3>Score</h3>
+          <h3 style={{ color: '#333', fontSize: '20px', fontWeight: 'bold' }}>Score</h3>
         </div>
       </div>
 
       {leaderboardData.map((player, index) => (
-        <div key={player.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '10px', backgroundColor: index % 2 === 0 ? '#fff' : '#eee', borderRadius: '5px', marginBottom: '10px' }}>
+        <div key={player.id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '5px', backgroundColor: index % 2 === 0 ? '#fff' : '#eee', borderRadius: '5px', marginBottom: '10px' }}>
           <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-            <h2 style={{ marginLeft: '10px', marginBottom: '10px', fontSize: '1.5em' }}>{player.name}</h2>
+            <h2 style={{ marginLeft: '10px', marginBottom: '0', fontSize: '20px', fontWeight: 'bold', color: '#333' }}>{player.name}</h2>
           </div>
           <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             {[...Array(player.stars)].map((_, i) => (
@@ -29,7 +29,7 @@ const Leaderboard = ({ leaderboardData }) => {
             ))}
           </div>
           <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <p style={{ marginTop: '0', marginBottom: '0', fontSize: '1em' }}>Score: {player.score}</p>
+            <p style={{ marginTop: '0', marginBottom: '0', fontSize: '20px', fontWeight: 'bold', color: '#333' }}>Score: {player.score}</p>
           </div>
         </div>
       ))}

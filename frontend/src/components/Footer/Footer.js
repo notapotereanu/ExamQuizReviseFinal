@@ -3,7 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({ appBar: { top: 'auto', bottom: 0, }, grow: { flexGrow: 1, }, logo: { cursor: 'pointer', }, }));
+const useStyles = makeStyles((theme) => ({ 
+  appBar: { top: 'auto', bottom: 0, }, 
+  grow: { flexGrow: 1, }, 
+  logo: { cursor: 'pointer', }, }));
 
 
 const Footer = () => {
@@ -11,7 +14,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <AppBar position="fixed" color="primary" className={classes.appBar}>
+    <AppBar position="static" color="primary" className={classes.appBar}>
       <Toolbar style={{ display: 'flex', flexDirection: 'column' }}>
         <div>
           <Button edge="start" color="inherit" aria-label="logo" className={classes.logo} onClick={() => navigate('/')}>
