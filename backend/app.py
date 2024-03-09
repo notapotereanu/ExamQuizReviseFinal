@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 app = Flask(__name__)
 CORS(app)
@@ -110,11 +111,50 @@ def login():
 
     if user is not None and user['password'] == password:
         access_token = create_access_token(identity=username)
-        return jsonify(access_token=access_token), 200
+        user_id = user["user_id"]
+        return jsonify(access_token=access_token,user_id=user_id), 200
     else:
         # Authentication failed
         return jsonify({"error": "Invalid username or password"}), 401
 
+@app.route('/api/user/public-profile/<int:user_id>', methods=['GET'])
+def get_public_profile(user_id):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE user_id = ?', (user_id,)).fetchone()
+    conn.close()
+    if user:
+        return jsonify({
+            "username": user["username"],
+            "email": user["email"],    
+            "questionsIDTaken": user["questionsIDTaken"],
+            "questionsIDAttempted": user["questionsIDAttempted"],
+            "questionsIDLiked": user["questionsIDLiked"],
+            "questionsIDDisliked": user["questionsIDDisliked"],
+            "questionsIDStared": user["questionsIDStared"]
+        })
+    else:
+        return jsonify({"error": "User not found"}), 404
+
+@app.route('/api/user/profile', methods=['GET'])
+@jwt_required()
+def get_user_profile():
+    current_user = get_jwt_identity()
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE /api/user/profile = ?', (current_user,)).fetchone()
+    conn.close()
+    if user:
+        return jsonify({
+            "username": user["username"],
+            "email": user["email"],
+            "password": user["password"],
+            "questionsIDTaken": user["questionsIDTaken"],
+            "questionsIDAttempted": user["questionsIDAttempted"],
+            "questionsIDLiked": user["questionsIDLiked"],
+            "questionsIDDisliked": user["questionsIDDisliked"],
+            "questionsIDStared": user["questionsIDStared"]
+        })
+    else:
+        return jsonify({"error": "User not found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

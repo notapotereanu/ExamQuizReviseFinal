@@ -8,6 +8,7 @@ export const useAuth = () => {
   const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [feedbackStatus, setFeedbackStatus] = useState('');
+  const [userId, setUserId] = useState('');
   const [loginFormData, setLoginFormData] = useState({
     username: '',
     password: '',
@@ -48,7 +49,11 @@ export const useAuth = () => {
   const handleLoginSubmit = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/api/login', loginFormData);
-      localStorage.setItem('access_token', response.data.access_token);
+      // Assuming the response includes the user_id
+      const { access_token, user_id } = response.data;
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user_id', user_id);
+      setUserId(user_id); 
       setIsLoggedIn(true);
       setOpenLoginDialog(false);
     } catch (error) {
@@ -80,6 +85,7 @@ export const useAuth = () => {
   };
 
   return {
+    userId,
     isLoggedIn,
     openLoginDialog,
     handleLoginOpen,

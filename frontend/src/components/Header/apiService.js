@@ -42,3 +42,4 @@ export const searchQuery = async (query) => {
     throw error;
   }
 };
+

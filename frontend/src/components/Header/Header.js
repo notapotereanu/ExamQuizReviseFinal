@@ -9,7 +9,14 @@ import { LoginDialog, CreateAccountDialog, FeedbackDialog } from './DialogCompon
 
 const Header = () => {
   const navigate = useNavigate();
+  
+  const handleUserPageClick = () => {
+    const currentUser = localStorage.getItem('user_id');
+    navigate(`/user/${currentUser}`);
+  };
+
   const {
+    userId,
     isLoggedIn,
     handleLogout,
     handleOpenCreateAccountForm,
@@ -88,7 +95,10 @@ const Header = () => {
             <Button color="inherit" onClick={handleLoginOpen}>Log in</Button>
           </>
         ) : (
+          <>
+          <Button color="inherit" onClick={handleUserPageClick}>User Page</Button>
           <Button color="inherit" onClick={handleLogout}>Log Out</Button>
+          </>
         )}
       </Toolbar>
       <LoginDialog

@@ -1,64 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import LoggedUser from './LoggedUser';
+import ViewingOtherUser from './ViewingOtherUser';
 
-const UserProfile = () => {
-  const [user, setUser] = useState({
-    username: '',
-    email: '',
-    // Add other user fields as needed
-  });
+const UserPage = () => {
+  const { userId } = useParams();
+  const currentUser = localStorage.getItem('user_id');
+  const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    // Fetch user data from your API and set it in state
-    // Placeholder for fetch logic
-  }, []);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+  const fetchUserData = async () => {
+    const apiUrl = userId === currentUser ? `http://127.0.0.1:5000/api/user/profile` : `http://127.0.0.1:5000/api/user/public-profile/${userId}`;
+    console.log(apiUrl)
+    const accessToken = localStorage.getItem('access_token');
+    try {
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setUserData(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Failed to fetch user data:", error);
+    }
   };
+  
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Submit updated user info to your API
-    // Placeholder for submit logic
-  };
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Typography component="h1" variant="h5">
-        User Profile
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          value={user.email}
-          onChange={handleInputChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          onChange={handleInputChange}
-        />
-        {/* Implement fields for questions attempted, liked, etc., as Lists or Cards */}
-        <Button type="submit" fullWidth variant="contained" color="primary">
-          Save Changes
-        </Button>
-      </form>
-    </Container>
+    <div>
+      {userId === currentUser ? (
+        <LoggedUser userData={userData} />
+      ) : (
+        <ViewingOtherUser userData={userData} />
+      )}
+    </div>
   );
 };
 
-export default UserProfile;
+export default UserPage;
