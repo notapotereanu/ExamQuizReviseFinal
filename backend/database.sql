@@ -17,6 +17,7 @@ CREATE TABLE users (
 CREATE TABLE module (
   module_id TEXT PRIMARY KEY,
   module_name TEXT,
+  module_level INTEGER,
   module_description TEXT,
   linkToSyllabus TEXT
 );
@@ -56,13 +57,15 @@ INSERT INTO users (user_id, username, password, questionsIDTaken, questionsIDAtt
 (4, 'Bruce', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
 (5, 'Abdul', 'pass456', '[2]', '[]', '[]', '[1]', '[]');
 
-INSERT INTO module (module_id, module_name, module_description, linkToSyllabus) VALUES
+INSERT INTO module (module_id, module_name,module_level, module_description, linkToSyllabus) VALUES
 ('CM2020', 
 'Agile Software Projects', 
+4,
 'This module aims to provide insights and practice in software development using contemporary methods to produce software that meets the needs of users and supports an organisation’s business function. The module will enable you to gain competence in the conceptualisation of a technology-based solution to a real-world problem, fulfilling the requirements of users and taking constraints imposed by the prevailing and foreseen market conditions and lessons learned from prototypes into account.', 
 'https://d3c33hcgiwev3.cloudfront.net/Er3JTvI4Tlq9yU7yOP5a1A_c1ee8e2ce4a94c79b8385ea967f94059_ASP_syllabus.pdf?Expires=1710115200&Signature=TzvxR7XMoQpeCj75kRX3FJ8iieSnyvLfl0Ox1hmMxsHtf0CTFgLfEYyYVjJ-QE3o~ntWJu2xno9FrQ9VVUa8pq2fnHrdSA4Dc7jiUs7wcVvuVFbPJO4YwH6s1Iu4KRD1a7hLBUSaUSnZ0if7DpVmi585gP5pJhuJ8gNjuKUZHWo_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A'),
 ('CM2022', 
 'Agile Software Proj2222cts', 
+5,
 'This module aims to provide insights and practice in software development using contemporary methods to produce software that meets the needs of users and supports an organisation’s business function. The module will enable you to gain competence in the conceptualisation of a technology-based solution to a real-world problem, fulfilling the requirements of users and taking constraints imposed by the prevailing and foreseen market conditions and lessons learned from prototypes into account.', 
 'https://d3c33hcgiwev3.cloudfront.net/Er3JTvI4Tlq9yU7yOP5a1A_c1ee8e2ce4a94c79b8385ea967f94059_ASP_syllabus.pdf?Expires=1710115200&Signature=TzvxR7XMoQpeCj75kRX3FJ8iieSnyvLfl0Ox1hmMxsHtf0CTFgLfEYyYVjJ-QE3o~ntWJu2xno9FrQ9VVUa8pq2fnHrdSA4Dc7jiUs7wcVvuVFbPJO4YwH6s1Iu4KRD1a7hLBUSaUSnZ0if7DpVmi585gP5pJhuJ8gNjuKUZHWo_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A');
 

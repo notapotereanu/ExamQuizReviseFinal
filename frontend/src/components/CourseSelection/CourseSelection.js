@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button, Container, Box } from '@material-ui/core';
-
+import { AppBar, Toolbar, Typography, Button, Container, Box, Paper } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
 
-// Define styles using makeStyles
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -18,20 +16,36 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   sectionContainer: {
-    backgroundColor: '#E6F7FF', // Light blue background color
+    backgroundColor: '#FFFFE0',
     padding: theme.spacing(2),
     textAlign: 'center',
+    marginBottom: theme.spacing(2),
+    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
   },
 }));
 
 const CourseSelection = () => {
-  // Use the useStyles hook to get the styles
   const classes = useStyles();
   const navigate = useNavigate();
+  const [modules, setModules] = useState([]);
 
-  const handleButtonClick = () => {
-    // Use the navigate function to navigate to a different route
-    navigate('/another-route');
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/modules');
+        const data = await response.json();
+        console.log(data);
+        setModules(data.modules);
+      } catch (error) {
+        console.error('Could not fetch modules:', error);
+      }
+    };
+
+    fetchModules();
+  }, []);
+
+  const handleButtonClick = (module) => {
+    navigate(`/course-information/${module.module_name}`);
   };
 
   return (
@@ -41,57 +55,31 @@ const CourseSelection = () => {
           <Typography variant="h6" className={classes.title}>
             Your App Name
           </Typography>
-          <Button color="inherit" onClick={handleButtonClick}>
-            Another Route
-          </Button>
         </Toolbar>
       </AppBar>
 
       <Container>
-        <Box className={classes.sectionContainer}>
-          <h2>Level 4 Subjects</h2>
-          {/* Your Level 4 Subjects */}
-          <Box className={classes.buttonContainer}>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              aa
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              bb
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              cc
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              dd
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-
-      <Container>
-        <Box className={classes.sectionContainer}>
-          <h2>Level 5 Subjects</h2>
-          {/* Your Level 5 Subjects */}
-          <Box className={classes.buttonContainer}>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              aa
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              bb
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              cc
-            </Button>
-            <Button variant="contained" color="primary" onClick={handleButtonClick}>
-              dd
-            </Button>
-          </Box>
-        </Box>
+        {modules && modules.length > 0 ? (
+          modules.map((module) => (
+            <Paper key={module.module_id} className={classes.sectionContainer} elevation={3}>
+              <h2>{`Level ${module.module_level}: ${module.module_name}`}</h2>
+              <Box className={classes.buttonContainer}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleButtonClick(module)}
+                >
+                  {`${module.module_name} Details`}
+                </Button>
+              </Box>
+            </Paper>
+          ))
+        ) : (
+          <p>No modules available.</p>
+        )}
       </Container>
     </div>
   );
 };
-
-
 
 export default CourseSelection;

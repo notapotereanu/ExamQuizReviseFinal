@@ -1,14 +1,16 @@
+// CourseInformation.js
 import React from 'react';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
-import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const CourseInformation = () => {
+  // Retrieve module_name from URL parameters
+  const { module_name } = useParams();
 
-  const navigate = useNavigate();
   return (
     <div>
-      <p>CourseInformation</p>
+      <h2>Course Information</h2>
+      <p>Module Name: {module_name}</p>
+      {/* Add more details or fetch additional information from the server as needed */}
     </div>
   );
 };
