@@ -14,15 +14,15 @@ const CreateQuestion = () => {
   });
 
   const [modules, setModules] = useState([]);
-
-  // Handlers for form inputs would be here...
-  
+  const [selectedModule, setSelectedModule] = useState({ module_id: '', module_name: '' });
+ 
   useEffect(() => {
   // Function to fetch modules
   const fetchModules = async () => {
     try {
       const response = await fetch('http://127.0.0.1:5000/api/modules'); // Ensure the URL matches your backend's
       const data = await response.json();
+      console.log(data)
       setModules(data.modules);
     } catch (error) {
       console.error("Could not fetch modules:", error);
@@ -33,8 +33,14 @@ const CreateQuestion = () => {
 }, []); // The empty array ensures this effect runs only once after the component mounts
   // Handler for module change
   const handleModuleChange = (event) => {
-    setQuestionData({ ...questionData, module_id: event.target.value });
+    const selectedIndex = event.target.options.selectedIndex;
+    const moduleId = event.target.value;
+    const moduleName = event.target.options[selectedIndex].getAttribute('data-name');
+  
+    setQuestionData({ ...questionData, module_id: moduleId });
+    setSelectedModule({ module_id: moduleId, module_name: moduleName });
   };
+  
 
   const handleAnswerChange = (index, event) => {
     const newAnswers = [...questionData.answers];
@@ -74,12 +80,14 @@ const CreateQuestion = () => {
             onChange={handleModuleChange}
         >
             {modules.map((module) => (
-            <MenuItem key={module.module_id} value={module.module_id}>
-                {module.moduleType}
+            <MenuItem key={module.module_id} value={module.module_id} data-name={module.module_name}>
+                {module.module_id} {module.module_name}
             </MenuItem>
             ))}
         </Select>
-       </FormControl>
+        </FormControl>
+
+
         <TextField
           name="question"
           label="Question"
