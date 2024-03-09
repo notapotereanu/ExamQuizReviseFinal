@@ -47,7 +47,7 @@ export const useAuth = () => {
 
   const handleLoginSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/login', loginFormData);
+      const response = await axios.post('http://127.0.0.1:5000/api/login', loginFormData);
       localStorage.setItem('access_token', response.data.access_token);
       setIsLoggedIn(true);
       setOpenLoginDialog(false);
@@ -61,7 +61,7 @@ export const useAuth = () => {
 
   const handleSubmitCreateAccount = async () => {
     try {
-      await axios.post('http://localhost:5000/api/register', createAccountFormData);
+      await axios.post('http://127.0.0.1:5000/api/register', createAccountFormData);
       setFeedbackMessage('Account creation successful!');
       setFeedbackStatus('success');
       setOpenCreateAccountDialog(false);
