@@ -49,16 +49,8 @@ const CourseSelection = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Your App Name
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <Container>
+    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '80px' }}>
+      <Container >
         {modules && modules.length > 0 ? (
           modules.map((module) => (
             <Paper key={module.module_id} className={classes.sectionContainer} elevation={3}>
