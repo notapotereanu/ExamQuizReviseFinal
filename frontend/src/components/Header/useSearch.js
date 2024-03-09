@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const useSearch = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -13,7 +14,7 @@ export const useSearch = () => {
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:5000/search`, {
+        const response = await axios.get(`http://localhost:5000/api/search`, {
           params: {
             query: searchQuery,
           },
@@ -37,16 +38,15 @@ export const useSearch = () => {
     setSearchQuery(value);
   };
 
+  const navigate = useNavigate();
+
+
   const handleQuizClick = (quizId) => {
-    // Logic to handle quiz selection
-    console.log(`Quiz selected: ${quizId}`);
-    // Implement navigation or further action here
+    navigate(`/quiz/${quizId}`); // Navigate to quiz page by ID
   };
 
   const handleUserClick = (userId) => {
-    // Logic to handle user selection
-    console.log(`User selected: ${userId}`);
-    // Implement navigation or further action here
+    navigate(`/user/${userId}`); // Navigate to user page by ID
   };
 
   return {

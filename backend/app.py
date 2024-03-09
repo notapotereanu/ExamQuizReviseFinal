@@ -8,7 +8,7 @@ from flask_jwt_extended import JWTManager, create_access_token
 app = Flask(__name__)
 CORS(app)
 bcrypt = Bcrypt(app)
-app.config['JWT_SECRET_KEY'] = 'your_jwt_secret_key'  # Change this to a random secret key
+app.config['JWT_SECRET_KEY'] = 'oidsbviowebv80q28niosn3fc23vc32c'  # Change this to a random secret key
 jwt = JWTManager(app)
 
 def get_db_connection():
