@@ -15,13 +15,12 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/courseInformation" element={<CourseInformation />} />
+        <Route path="/courseInformation/:courseId" element={<CourseInformation />} />
         <Route path="/courseSelection" element={<CourseSelection />} />
         <Route path="/quizCreation" element={<QuizCreation />} />
         <Route path="/quizResponse" element={<QuizResponse />} />
-        <Route path="/user" element={<UserPage />} />
         <Route path="/create-question" element={<CreateQuestion />} />
-
+        <Route path="/user/:userId" element={<UserPage />} />
       </Routes>
       <Footer />
     </Router>

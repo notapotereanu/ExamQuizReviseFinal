@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Define the base URL for all API requests
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://127.0.0.1:5000/api';
 
 // Configure axios if needed (e.g., headers)
 const apiClient = axios.create({
