@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+
+
 
 const CreateQuestion = () => {
   // Define initial state for the form, including a module_id
@@ -11,14 +13,24 @@ const CreateQuestion = () => {
     difficulty: '',
   });
 
+  const [modules, setModules] = useState([]);
+
   // Handlers for form inputs would be here...
   
-  // Define the mock modules directly within the component
-  const mockModules = [
-    { module_id: 1, title: 'Mathematics' },
-    { module_id: 2, title: 'World History' },
-  ];
-  
+  useEffect(() => {
+  // Function to fetch modules
+  const fetchModules = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/modules'); // Ensure the URL matches your backend's
+      const data = await response.json();
+      setModules(data.modules);
+    } catch (error) {
+      console.error("Could not fetch modules:", error);
+    }
+  };
+
+  fetchModules();
+}, []); // The empty array ensures this effect runs only once after the component mounts
   // Handler for module change
   const handleModuleChange = (event) => {
     setQuestionData({ ...questionData, module_id: event.target.value });
@@ -54,20 +66,20 @@ const CreateQuestion = () => {
       </Typography>
       <form onSubmit={handleSubmit}>
       <FormControl fullWidth margin="normal">
-          <InputLabel id="module-label">Module</InputLabel>
-          <Select
+        <InputLabel id="module-label">Module</InputLabel>
+        <Select
             labelId="module-label"
             name="module_id"
             value={questionData.module_id}
             onChange={handleModuleChange}
-          >
-            {mockModules.map((module) => (
-              <MenuItem key={module.module_id} value={module.module_id}>
-                {module.title}
-              </MenuItem>
+        >
+            {modules.map((module) => (
+            <MenuItem key={module.module_id} value={module.module_id}>
+                {module.moduleType}
+            </MenuItem>
             ))}
-          </Select>
-        </FormControl>
+        </Select>
+       </FormControl>
         <TextField
           name="question"
           label="Question"
