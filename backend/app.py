@@ -156,5 +156,17 @@ def get_user_profile():
     else:
         return jsonify({"error": "User not found"}), 404
 
+@app.route('/api/modules', methods=['GET'])
+def get_modules():
+    conn = get_db_connection()
+    modules = conn.execute('SELECT * FROM module').fetchall()
+    conn.close()
+
+    # Convert the SQL rows to a list of dicts
+    modules_list = [dict(module) for module in modules]
+    
+    return jsonify(modules=modules_list)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

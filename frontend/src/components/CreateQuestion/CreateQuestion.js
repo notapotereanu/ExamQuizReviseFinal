@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+
+
 
 const CreateQuestion = () => {
   // Define initial state for the form, including a module_id
@@ -11,18 +13,34 @@ const CreateQuestion = () => {
     difficulty: '',
   });
 
-  // Handlers for form inputs would be here...
-  
-  // Define the mock modules directly within the component
-  const mockModules = [
-    { module_id: 1, title: 'Mathematics' },
-    { module_id: 2, title: 'World History' },
-  ];
-  
+  const [modules, setModules] = useState([]);
+  const [selectedModule, setSelectedModule] = useState({ module_id: '', module_name: '' });
+ 
+  useEffect(() => {
+  // Function to fetch modules
+  const fetchModules = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/modules'); // Ensure the URL matches your backend's
+      const data = await response.json();
+      console.log(data)
+      setModules(data.modules);
+    } catch (error) {
+      console.error("Could not fetch modules:", error);
+    }
+  };
+
+  fetchModules();
+}, []); // The empty array ensures this effect runs only once after the component mounts
   // Handler for module change
   const handleModuleChange = (event) => {
-    setQuestionData({ ...questionData, module_id: event.target.value });
+    const selectedIndex = event.target.options.selectedIndex;
+    const moduleId = event.target.value;
+    const moduleName = event.target.options[selectedIndex].getAttribute('data-name');
+  
+    setQuestionData({ ...questionData, module_id: moduleId });
+    setSelectedModule({ module_id: moduleId, module_name: moduleName });
   };
+  
 
   const handleAnswerChange = (index, event) => {
     const newAnswers = [...questionData.answers];
@@ -54,20 +72,22 @@ const CreateQuestion = () => {
       </Typography>
       <form onSubmit={handleSubmit}>
       <FormControl fullWidth margin="normal">
-          <InputLabel id="module-label">Module</InputLabel>
-          <Select
+        <InputLabel id="module-label">Module</InputLabel>
+        <Select
             labelId="module-label"
             name="module_id"
             value={questionData.module_id}
             onChange={handleModuleChange}
-          >
-            {mockModules.map((module) => (
-              <MenuItem key={module.module_id} value={module.module_id}>
-                {module.title}
-              </MenuItem>
+        >
+            {modules.map((module) => (
+            <MenuItem key={module.module_id} value={module.module_id} data-name={module.module_name}>
+                {module.module_id} {module.module_name}
+            </MenuItem>
             ))}
-          </Select>
+        </Select>
         </FormControl>
+
+
         <TextField
           name="question"
           label="Question"
