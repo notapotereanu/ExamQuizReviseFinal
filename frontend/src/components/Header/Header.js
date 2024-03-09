@@ -46,7 +46,9 @@ const Header = () => {
         <Button edge="start" color="inherit" aria-label="logo" style={{ marginRight: '20px' }} onClick={() => navigate('/')}>
           <img src="/logo.png" alt="Logo" style={{ height: '30px' }} />
         </Button>
-        <Button color="inherit">Create Question</Button>
+        <Button color="inherit" onClick={() => navigate('/create-question')}>
+        Create Question
+        </Button>
         <Button color="inherit">Random Course</Button>
         <Button color="inherit">List Courses</Button>
         <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1, marginLeft: '20px' }}>

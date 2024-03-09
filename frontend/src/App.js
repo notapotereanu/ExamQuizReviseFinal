@@ -7,6 +7,7 @@ import QuizResponse from './components/QuizResponse/QuizResponse';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import UserPage from './components/UserPage/UserPage';
+import CreateQuestion from './components/CreateQuestion/CreateQuestion';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/quizCreation" element={<QuizCreation />} />
         <Route path="/quizResponse" element={<QuizResponse />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/create-question" element={<CreateQuestion />} />
+
       </Routes>
       <Footer />
     </Router>
