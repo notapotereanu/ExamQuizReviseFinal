@@ -1,53 +1,44 @@
-import { AppBar, Toolbar, Button, TextField, List, ListItem, ListItemText } from '@material-ui/core';
+import React from 'react';
+import { AppBar, Toolbar, Button, TextField } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { Autocomplete } from '@material-ui/lab';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useAuth } from './useAuth';
+import { useSearch } from './useSearch';
+import { LoginDialog, CreateAccountDialog, FeedbackDialog } from './DialogComponents';
 
 const Header = () => {
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState({ users: [], quizzes: [] });
-
-  useEffect(() => {
-    const timerId = setTimeout(() => {
-      if (searchQuery) { // Only make the request if searchQuery is not empty
-        axios.get('http://localhost:5000/search', {
-          params: {
-            query: searchQuery
-          }
-        })
-          .then((response) => {
-            console.log(searchQuery)
-            console.log(response.data);
-            setSearchResults(response.data);
-          })
-          .catch((error) => {
-            console.error('Error fetching search results:', error);
-          });
-      } else {
-        setSearchResults({ users: [], quizzes: [] }); // Clear the search results when the search query is empty
-      }
-    }, 100); // delay in milliseconds
-
-    // Cleanup function to clear the timeout if the component is unmounted or if the search query changes
-    return () => clearTimeout(timerId);
-  }, [searchQuery]); // dependency array
-
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleQuizClick = (id) => {
-    navigate(`/module/${id}`);
-  };
-
-  const handleUserClick = (id) => {
-    navigate(`/user/${id}`);
-  };
-
-  const [isFocused, setIsFocused] = useState(false);
+  const {
+    isLoggedIn,
+    handleLogout,
+    handleOpenCreateAccountForm,
+    handleLoginOpen,
+    openLoginDialog,
+    handleLoginClose,
+    loginFormData,
+    handleLoginChange,
+    handleLoginSubmit,
+    openCreateAccountDialog,
+    handleCloseCreateAccountDialog,
+    createAccountFormData,
+    handleChangeCreateAccountForm,
+    handleSubmitCreateAccount,
+    openFeedbackDialog,
+    feedbackMessage,
+    feedbackStatus,
+    setOpenFeedbackDialog
+  } = useAuth();
+  const {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    handleSearchChange,
+    handleQuizClick,
+    handleUserClick,
+    isFocused,
+    setIsFocused
+  } = useSearch();
 
   return (
     <AppBar>
@@ -66,11 +57,7 @@ const Header = () => {
             groupBy={(option) => option.title ? 'Modules' : 'Users'}
             style={{ width: 300 }}
             onInputChange={handleSearchChange}
-            renderOption={(option) => (
-              <div>
-                {option.title ? option.title : option.username}
-              </div>
-            )}
+            renderOption={(option) => <div>{option.title || option.username}</div>}
             renderInput={(params) =>
               <TextField
                 {...params}
@@ -93,9 +80,35 @@ const Header = () => {
             }}
           />
         </div>
-        <Button color="inherit">Create Account</Button>
-        <Button color="inherit">Login</Button>
+        {!isLoggedIn ? (
+          <>
+            <Button color="inherit" onClick={handleOpenCreateAccountForm}>Create Account</Button>
+            <Button color="inherit" onClick={handleLoginOpen}>Log in</Button>
+          </>
+        ) : (
+          <Button color="inherit" onClick={handleLogout}>Log Out</Button>
+        )}
       </Toolbar>
+      <LoginDialog
+        open={openLoginDialog}
+        handleClose={handleLoginClose}
+        formData={loginFormData}
+        handleChange={handleLoginChange}
+        handleSubmit={handleLoginSubmit}
+      />
+      <CreateAccountDialog
+        open={openCreateAccountDialog}
+        handleClose={handleCloseCreateAccountDialog}
+        formData={createAccountFormData}
+        handleChange={handleChangeCreateAccountForm}
+        handleSubmit={handleSubmitCreateAccount}
+      />
+      <FeedbackDialog
+        open={openFeedbackDialog}
+        handleClose={() => setOpenFeedbackDialog(false)}
+        message={feedbackMessage}
+        status={feedbackStatus}
+      />
     </AppBar>
   );
 };

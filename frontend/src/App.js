@@ -6,6 +6,7 @@ import QuizCreation from './components/QuizCreation/QuizCreation';
 import QuizResponse from './components/QuizResponse/QuizResponse';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import UserPage from './components/UserPage/UserPage';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/courseSelection" element={<CourseSelection />} />
         <Route path="/quizCreation" element={<QuizCreation />} />
         <Route path="/quizResponse" element={<QuizResponse />} />
+        <Route path="/user" element={<UserPage />} />
       </Routes>
       <Footer />
     </Router>

@@ -6,7 +6,7 @@ const Leaderboard = ({ }) => {
   const [leaderboardData, setLeaderboardData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/leaderboard')
+    fetch('http://localhost:5000/api/leaderboard')
       .then(response => response.json())
       .then(data => {
         // Sort the data in descending order by question_count
