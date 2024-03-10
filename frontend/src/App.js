@@ -21,7 +21,7 @@ function App() {
         <Route path="/user/:userId" element={<UserPage />} />--ok
       </Routes>
       <Footer />
-    </Router> 
+    </Router>
   );
 }
 export default App;
