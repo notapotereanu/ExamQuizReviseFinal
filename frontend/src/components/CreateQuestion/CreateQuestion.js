@@ -1,5 +1,6 @@
 import { TextField, Button, Container, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
+import './CreateQuestion.css';
 
 const CreateQuestion = () => {
   const [questionData, setQuestionData] = useState({
@@ -13,6 +14,9 @@ const CreateQuestion = () => {
   const [modules, setModules] = useState([]);
   const [selectedModule, setSelectedModule] = useState({ module_id: '', module_name: '' });
 
+  // Successful submition response
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   useEffect(() => {
     const fetchModules = async () => {
       try {
@@ -71,6 +75,12 @@ const CreateQuestion = () => {
           correctAnswer: '',
           difficulty: '',
         });
+        setIsSubmitted(true); // Show success message
+        // Set a timeout to hide the message after 5 seconds (5000 milliseconds)
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+
       } else {
         console.error('Failed to add question');
       }
@@ -159,6 +169,11 @@ const CreateQuestion = () => {
           Submit Question
         </Button>
       </form>
+      {isSubmitted && (
+      <div className="success-message">
+        Thank you for your contribution. Your question has been successfully uploaded!
+      </div>
+    )}
     </Container>
   );
 };
