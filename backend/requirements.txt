@@ -2,3 +2,4 @@ flask
 flask-cors
 Flask-Bcrypt
 Flask-JWT-Extended
+flask_testing

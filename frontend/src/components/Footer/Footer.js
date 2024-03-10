@@ -39,7 +39,7 @@ const Footer = () => {
         </div>
         <div>
           <Typography variant="body2">
-            © {new Date().getFullYear()} ExamQuizRevise. All rights reserved.
+            © {new Date().getFullYear()} ExamQuizReviser. All rights reserved.
           </Typography>
         </div>
       </Toolbar>

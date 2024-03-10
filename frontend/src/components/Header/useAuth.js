@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -8,6 +9,7 @@ export const useAuth = () => {
   const [openFeedbackDialog, setOpenFeedbackDialog] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [feedbackStatus, setFeedbackStatus] = useState('');
+  const [userId, setUserId] = useState('');
   const [loginFormData, setLoginFormData] = useState({
     username: '',
     password: '',
@@ -17,6 +19,8 @@ export const useAuth = () => {
     email: '',
     password: '',
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -47,10 +51,15 @@ export const useAuth = () => {
 
   const handleLoginSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/login', loginFormData);
-      localStorage.setItem('access_token', response.data.access_token);
+      const response = await axios.post('http://127.0.0.1:5000/api/login', loginFormData);
+      // Assuming the response includes the user_id
+      const { access_token, user_id } = response.data;
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('user_id', user_id);
+      setUserId(user_id); 
       setIsLoggedIn(true);
       setOpenLoginDialog(false);
+      navigate('/');
     } catch (error) {
       console.error('Login failed:', error);
       setFeedbackMessage('Login failed. Please try again.');
@@ -61,7 +70,7 @@ export const useAuth = () => {
 
   const handleSubmitCreateAccount = async () => {
     try {
-      await axios.post('http://localhost:5000/api/register', createAccountFormData);
+      await axios.post('http://127.0.0.1:5000/api/register', createAccountFormData);
       setFeedbackMessage('Account creation successful!');
       setFeedbackStatus('success');
       setOpenCreateAccountDialog(false);
@@ -76,10 +85,13 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
     setIsLoggedIn(false);
+    navigate('/');
   };
 
   return {
+    userId,
     isLoggedIn,
     openLoginDialog,
     handleLoginOpen,

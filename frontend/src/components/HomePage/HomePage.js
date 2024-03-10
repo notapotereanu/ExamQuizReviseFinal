@@ -7,17 +7,72 @@ import React, { useEffect, useState } from 'react';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [newsData, setNewsData] = useState([]); // Initialize newsData state as an empty array
 
-  const newsData = [ // This data will be fetched from the backend
-    { id: 1, title: 'News 1', content: 'This is the first news item.', url: '/news1' },
-    { id: 2, title: 'News 2', content: 'This is the second news item.', url: '/news2' },
-    { id: 3, title: 'News 3', content: 'This is the third news item.', url: '/news3' },
-  ];
+  useEffect(() => {
+    const getLatestNewsData = () => {
+      const currentDate = new Date();
+      const oneWeekAgo = new Date(currentDate.setDate(currentDate.getDate() - 7));
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
 
-  const examCoursesData = [ // This data will be fetched from the backend
-    { id: 1, title: 'CM1020 - Descrite Math', content: 'Date: Sunday 04 March 2024.', url: '/news1' },
-    { id: 2, title: 'CM3070 - Final Project', content: 'Date: Monday 05 March 2024', url: '/news2' },
-    { id: 3, title: 'CM2010 - Software Design', content: 'Date: Monday 05 March 2024', url: '/news3' },
+      const apiUrl = 'https://newsapi.org/v2/everything?q=university%20of%london&from='+formattedDate+'&sortBy=publishedAt&apiKey=4f9a2b0c1efd40318cdf751d5b7444f1';
+      
+      fetch(apiUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          const seenTitles = new Set(); // Store seen titles to avoid duplicates
+          const uniqueArticles = data.articles.filter(article => {
+            const duplicate = seenTitles.has(article.title);
+            seenTitles.add(article.title);
+            return !duplicate;
+          });
+  
+          // Slice to get only the first 3 unique articles if there are more
+          const newsArticles = uniqueArticles.slice(0, 3).map((article, index) => ({
+            id: index + 1,
+            title: article.title,
+            content: article.description,
+            url: article.url,
+            image: article.urlToImage
+          }));
+  
+          setNewsData(newsArticles); // Update the state with fetched data
+        })
+        .catch(error => {
+          console.error('There was a problem with your fetch operation:', error);
+        });
+    };
+  
+    getLatestNewsData(); // Call the function to fetch news data
+  }, []); // The empty array ensures this effect runs only once after the initial render
+  
+
+  const glowButtonStyle = {
+    width: '100%',
+    height: '60px',
+    marginBottom: '20px',
+    backgroundColor: '#1976d2',
+    color: '#fff',
+    boxShadow: '0 0 10px #1976d2, 0 0 20px #1976d2, 0 0 30px #1976d2',
+    transition: 'all 0.3s ease-in-out',
+    '&:hover': {
+      backgroundColor: '#115293',
+      boxShadow: '0 0 15px #1976d2, 0 0 25px #1976d2, 0 0 35px #1976d2',
+    },
+  };
+
+  const examCoursesData = [
+    { id: 1, title: 'CM3020 - Artificial Intelligence', content: 'Exam Date: 05 March 2024', url: 'https://github.com/world-class/REPL?tab=readme-ov-file' },
+    { id: 2, title: 'CM3025 - Virtual Reality', content: 'Exam Date: 04 March 2024.', url: 'https://github.com/world-class/REPL?tab=readme-ov-file' },
+    { id: 3, title: 'CM3030 - Games Development', content: 'Exam Date: 05 March 2024', url: 'https://github.com/world-class/REPL?tab=readme-ov-file' },
+    { id: 4, title: 'CM3035 - Advanced Web Development', content: 'Exam Date: 06 March 2024', url: 'https://github.com/world-class/REPL?tab=readme-ov-file' },
+    { id: 5, title: 'CM3005 - Data Science', content: 'Exam Date: 03 March 2024', url: 'https://github.com/world-class/REPL?tab=readme-ov-file' },
+    { id: 6, title: 'CM3030 - Games Development', content: 'Exam Date: 02 March 2024', url: 'https://github.com/world-class/REPL?tab=readme-ov-file' },
   ];
 
   return (
@@ -25,11 +80,16 @@ const HomePage = () => {
       <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '80px' }}>
         <div style={{ display: 'flex', width: '80%', margin: '0 auto' }}>
           <div style={{ flex: 2, paddingRight: '10px', width: '70%', margin: '0 auto' }}>
-          <Button
-            className="button instagram"
-            variant="contained" color="primary" size="large" onClick={() => navigate('/courseSelection')}
-            style={{ width: '100%', height: '60px', marginBottom: '20px' }}> Select a Course for Quiz </Button>
-            <MockArticles data={newsData} style={{ marginTop: '20px' }} />
+            <Button
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={() => navigate('/courseSelection')}
+              style={glowButtonStyle} 
+            >
+              Select a Course for Quiz
+            </Button>
+            <MockArticles title= 'Notices and Events' data={newsData} style={{ marginTop: '20px' }} />
             <div style={{ marginTop: '20px' }}>
               <ResourceLinks />
             </div>
@@ -37,7 +97,7 @@ const HomePage = () => {
           <div style={{ flex: 1 }}>
             <Leaderboard/>
             <div style={{ marginTop: '20px' }}>
-              <MockArticles data={examCoursesData} />
+              <MockArticles title= 'Courses' data={examCoursesData} />
             </div>
           </div>
         </div>

@@ -9,7 +9,28 @@ import { LoginDialog, CreateAccountDialog, FeedbackDialog } from './DialogCompon
 
 const Header = () => {
   const navigate = useNavigate();
+  
+  const handleUserPageClick = () => {
+    const currentUser = localStorage.getItem('user_id');
+    navigate(`/user/${currentUser}`);
+  };
+
+  const navigateToRandomCourse = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/random_module');
+      const data = await response.json();
+      if (data.module_id) {
+        navigate(`/courseInformation/${data.module_id}`);
+      } else {
+        console.error('No module found');
+      }
+    } catch (error) {
+      console.error('Error fetching random module:', error);
+    }
+  };
+
   const {
+    userId,
     isLoggedIn,
     handleLogout,
     handleOpenCreateAccountForm,
@@ -46,9 +67,11 @@ const Header = () => {
         <Button edge="start" color="inherit" aria-label="logo" style={{ marginRight: '20px' }} onClick={() => navigate('/')}>
           <img src="/logo.png" alt="Logo" style={{ height: '30px' }} />
         </Button>
-        <Button color="inherit">Create Question</Button>
-        <Button color="inherit">Random Course</Button>
-        <Button color="inherit">List Courses</Button>
+        <Button color="inherit" onClick={() => navigate('/create-question')}>
+        Create Question
+        </Button>
+        <Button color="inherit" onClick={() => navigateToRandomCourse()}>Random Course</Button>
+        <Button color="inherit" onClick={() => navigate('/courseSelection')}>List Courses</Button>
         <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1, marginLeft: '20px' }}>
           <SearchIcon />
           <Autocomplete
@@ -86,7 +109,10 @@ const Header = () => {
             <Button color="inherit" onClick={handleLoginOpen}>Log in</Button>
           </>
         ) : (
+          <>
+          <Button color="inherit" onClick={handleUserPageClick}>User Page</Button>
           <Button color="inherit" onClick={handleLogout}>Log Out</Button>
+          </>
         )}
       </Toolbar>
       <LoginDialog
