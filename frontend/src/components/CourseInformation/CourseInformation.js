@@ -63,17 +63,17 @@ const CourseInformation = () => {
           <div style={{ marginBottom: '40px', width: '100%' }}>
             <button
               style={{ ...buttonStyle, backgroundColor: 'blue' }}
-              onClick={() => handleDifficultyClick('basic')}>
+              onClick={() => handleDifficultyClick('1')}>
               Basic
             </button>
             <button
               style={{ ...buttonStyle, backgroundColor: 'blue' }}
-              onClick={() => handleDifficultyClick('intermediate')}>
+              onClick={() => handleDifficultyClick('2')}>
               Intermediate
             </button>
             <button
               style={{ ...buttonStyle, backgroundColor: 'blue' }}
-              onClick={() => handleDifficultyClick('advanced')}>
+              onClick={() => handleDifficultyClick('3')}>
               Advanced
             </button>
           </div>
