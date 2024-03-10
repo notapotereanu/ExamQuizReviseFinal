@@ -312,5 +312,6 @@ def get_questions_by_module_id_and_difficulty(module_id, difficulty):
     questions_list = [dict(question) for question in questions]
     return jsonify(questions_list)
 
+
 if __name__ == '__main__':
     app.run(debug=True)
