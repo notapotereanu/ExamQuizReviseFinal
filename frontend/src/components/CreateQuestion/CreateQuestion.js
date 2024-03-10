@@ -1,70 +1,94 @@
 import { TextField, Button, Container, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-
-
+import './CreateQuestion.css';
 
 const CreateQuestion = () => {
-  // Define initial state for the form, including a module_id
   const [questionData, setQuestionData] = useState({
     module_id: '',
     question: '',
-    answers: ['', '', '', ''], // Assuming 4 possible answers for the multiple choice question
+    answers: ['', '', '', ''], // Correctly initializing answers as an array of strings
     correctAnswer: '',
     difficulty: '',
   });
 
   const [modules, setModules] = useState([]);
   const [selectedModule, setSelectedModule] = useState({ module_id: '', module_name: '' });
- 
+
+  // Successful submition response
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
   useEffect(() => {
-  // Function to fetch modules
-  const fetchModules = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/api/modules'); // Ensure the URL matches your backend's
-      const data = await response.json();
-      console.log(data)
-      setModules(data.modules);
-    } catch (error) {
-      console.error("Could not fetch modules:", error);
+    const fetchModules = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/modules');
+        const data = await response.json();
+        setModules(data.modules);
+      } catch (error) {
+        console.error("Could not fetch modules:", error);
+      }
+    };
+
+    fetchModules();
+  }, []);
+
+  const handleModuleChange = (event) => {
+    const moduleId = event.target.value;
+    const selectedModule = modules.find(mod => mod.module_id === moduleId);
+    
+    if (selectedModule) {
+      setQuestionData(prevData => ({ ...prevData, module_id: moduleId }));
+      setSelectedModule({ module_id: moduleId, module_name: selectedModule.module_name });
     }
   };
-
-  fetchModules();
-}, []); // The empty array ensures this effect runs only once after the component mounts
-  // Handler for module change
-  const handleModuleChange = (event) => {
-    const selectedIndex = event.target.options.selectedIndex;
-    const moduleId = event.target.value;
-    const moduleName = event.target.options[selectedIndex].getAttribute('data-name');
-  
-    setQuestionData({ ...questionData, module_id: moduleId });
-    setSelectedModule({ module_id: moduleId, module_name: moduleName });
-  };
-  
 
   const handleAnswerChange = (index, event) => {
     const newAnswers = [...questionData.answers];
     newAnswers[index] = event.target.value;
-    setQuestionData({ ...questionData, answers: newAnswers });
+    setQuestionData(prevData => ({ ...prevData, answers: newAnswers }));
   };
 
   const handleDifficultyChange = (event) => {
-    setQuestionData({ ...questionData, difficulty: event.target.value });
+    setQuestionData(prevData => ({ ...prevData, difficulty: event.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Construct the answers JSON string
-    const answersJSON = {
-      options: questionData.answers,
-      correct: questionData.correctAnswer,
-    };
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/add-question', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...questionData,
+          answers: JSON.stringify(questionData.answers) // Serialize answers array to JSON string
+        }),
+      });
 
-    // Add your submit logic here
-    console.log('Form Data:', questionData);
-    console.log('Answers JSON:', JSON.stringify(answersJSON));
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse.message);
+        setQuestionData({ // Reset the form after successful submission
+          module_id: '',
+          question: '',
+          answers: ['', '', '', ''],
+          correctAnswer: '',
+          difficulty: '',
+        });
+        setIsSubmitted(true); // Show success message
+        // Set a timeout to hide the message after 5 seconds (5000 milliseconds)
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+
+      } else {
+        console.error('Failed to add question');
+      }
+    } catch (error) {
+      console.error('Failed to send request:', error);
+    }
   };
-
+  
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" style={{ textAlign: 'center', margin: '20px 0' }}>
@@ -81,7 +105,7 @@ const CreateQuestion = () => {
         >
             {modules.map((module) => (
             <MenuItem key={module.module_id} value={module.module_id} data-name={module.module_name}>
-                {module.module_id} {module.module_name}
+                {module.module_id} - {module.module_name}
             </MenuItem>
             ))}
         </Select>
@@ -89,14 +113,15 @@ const CreateQuestion = () => {
 
 
         <TextField
-          name="question"
-          label="Question"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={questionData.question}
-          onChange={e => setQuestionData({ ...questionData, question: e.target.value })}
+        name="question"
+        label="Question"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={questionData.question}
+        onChange={e => setQuestionData({ ...questionData, question: e.target.value })}
         />
+
         <FormControl fullWidth margin="normal">
           <InputLabel id="difficulty-label">Difficulty</InputLabel>
           <Select
@@ -144,6 +169,11 @@ const CreateQuestion = () => {
           Submit Question
         </Button>
       </form>
+      {isSubmitted && (
+      <div className="success-message">
+        Thank you for your contribution. Your question has been successfully uploaded!
+      </div>
+    )}
     </Container>
   );
 };
