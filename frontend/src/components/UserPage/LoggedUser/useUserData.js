@@ -31,7 +31,6 @@ export const useUserData = (initialUserData) => {
       setPassword('');
       setConfirmPassword('');
       
-      console.log(response.data);
       alert("Profile updated successfully.");
       
     } catch (error) {

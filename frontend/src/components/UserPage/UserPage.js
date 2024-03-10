@@ -17,7 +17,6 @@ const UserPage = () => {
   const fetchUserData = async () => {
     setIsOwnProfile(userId === currentUser);
     const apiUrl = isOwnProfile ? `http://127.0.0.1:5000/api/user/profile` : `http://127.0.0.1:5000/api/user/public-profile/${userId}`;
-    console.log(apiUrl)
     const accessToken = localStorage.getItem('access_token');
     try {
       const response = await fetch(apiUrl, {
@@ -32,7 +31,6 @@ const UserPage = () => {
   
       const data = await response.json();
       setUserData(data);
-      console.log(data);
     } catch (error) {
       console.error("Failed to fetch user data:", error);
     }
