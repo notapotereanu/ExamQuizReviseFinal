@@ -11,8 +11,9 @@ const HomePage = () => {
 
   useEffect(() => {
     const getLatestNewsData = () => {
-      const apiUrl = 'https://newsapi.org/v2/everything?q=university%20of%london&from=2024-02-09&sortBy=publishedAt&apiKey=4f9a2b0c1efd40318cdf751d5b7444f1';
-  
+      //const apiUrl = 'https://newsapi.org/v2/everything?q=university%20of%london&from=2024-02-09&sortBy=publishedAt&apiKey=4f9a2b0c1efd40318cdf751d5b7444f1';
+      //TODO restore before going live
+      const apiUrl = ''
       fetch(apiUrl)
         .then(response => {
           if (!response.ok) {

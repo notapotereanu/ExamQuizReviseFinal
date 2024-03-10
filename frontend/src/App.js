@@ -18,7 +18,7 @@ function App() {
         <Route path="/courseInformation/:courseId" element={<CourseInformation />} /> -- Klara   TODO ()
         <Route path="/courseSelection" element={<CourseSelection />} />               -- Klara   TODO (To link the user and gather information about courses)
         <Route path="/quizResponse" element={<QuizResponse />} />                     -- Andrian TODO (To initialize)
-        <Route path="/create-question" element={<CreateQuestion />} />                -- Burce   TODO (To link the user)
+        <Route path="/create-question" element={<CreateQuestion />} />                -- Burce   TO TEST (To link the user)
         <Route path="/user/:userId" element={<UserPage />} />                         -- Andrian
       </Routes>
       <Footer />

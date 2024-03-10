@@ -15,7 +15,7 @@ const UserPage = () => {
   }, [userId, currentUser]);
 
   const fetchUserData = async () => {
-    setIsOwnProfile(userId == currentUser);
+    setIsOwnProfile(userId === currentUser);
     const apiUrl = isOwnProfile ? `http://127.0.0.1:5000/api/user/profile` : `http://127.0.0.1:5000/api/user/public-profile/${userId}`;
     console.log(apiUrl)
     const accessToken = localStorage.getItem('access_token');
@@ -46,9 +46,9 @@ const UserPage = () => {
   return (
     <div>
       {isOwnProfile ? (
-        <LoggedUser userData={userData} />
+        <LoggedUser userData={userData} userId={currentUser}/>
       ) : (
-        <ViewingOtherUser userData={userData} />
+        <ViewingOtherUser userData={userData} userId={userId} />
       )}
     </div>
   );

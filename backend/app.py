@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import sqlite3
+import json
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
@@ -187,5 +188,41 @@ def update_user():
     conn.close()
     return jsonify({"message": "User updated successfully"}), 200
 
+@app.route('/get_questions_details/<int:user_id>')
+def get_questions_details(user_id):
+    conn = get_db_connection()
+    
+    user_profile = conn.execute('SELECT * FROM users WHERE user_id = ?', (user_id,)).fetchone()
+    
+    if not user_profile:
+        return jsonify({"error": "User not found"}), 404
+
+    userData = {
+        'questionsIDAttempted': json.loads(user_profile['questionsIDAttempted']) if user_profile['questionsIDAttempted'] else [],
+        'questionsIDTaken': json.loads(user_profile['questionsIDTaken']) if user_profile['questionsIDTaken'] else [],
+        'questionsIDLiked': json.loads(user_profile['questionsIDLiked']) if user_profile['questionsIDLiked'] else [],
+        'questionsIDDisliked': json.loads(user_profile['questionsIDDisliked']) if user_profile['questionsIDDisliked'] else [],
+        'questionsIDStared': json.loads(user_profile['questionsIDStared']) if user_profile['questionsIDStared'] else [],
+    }
+
+    questionCategories = [
+        {'title': 'Attempted Questions', 'data': userData.get('questionsIDAttempted', [])},
+        {'title': 'Taken Questions', 'data': userData.get('questionsIDTaken', [])},
+        {'title': 'Liked Questions', 'data': userData.get('questionsIDLiked', [])},
+        {'title': 'Disliked Questions', 'data': userData.get('questionsIDDisliked', [])},
+        {'title': 'Starred Questions', 'data': userData.get('questionsIDStared', [])},
+    ]
+
+    for category in questionCategories:
+        detailed_questions = []
+        for question_id in category['data']:
+            question_details = conn.execute('SELECT question,question_id FROM questions WHERE question_id = ?', (question_id,)).fetchone()
+            if question_details:
+                detailed_questions.append(dict(question_details))
+        category['data'] = detailed_questions
+
+    conn.close()
+
+    return jsonify(questionCategories)
 if __name__ == '__main__':
     app.run(debug=True)

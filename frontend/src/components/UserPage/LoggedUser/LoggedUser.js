@@ -2,8 +2,9 @@ import { Container, Grid, Typography } from '@mui/material';
 import UserProfileForm from './UserProfileForm'; // Import the profile form component
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import QuestionsList from '../QuestionsList';
 
-const LoggedUser = ({ userData }) => {
+const LoggedUser = ({ userData,userId }) => {
 
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogContent, setDialogContent] = useState('');
@@ -23,7 +24,7 @@ const LoggedUser = ({ userData }) => {
             <UserProfileForm userData={userData} />
           </Grid>
           <Grid item xs={12} md={8}>
-            {/* Additional content can go here */}
+            <QuestionsList userData={userData} userId={userId}/>
           </Grid>
         </Grid>
       </Container>
