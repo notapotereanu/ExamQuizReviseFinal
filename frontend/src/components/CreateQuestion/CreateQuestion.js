@@ -1,7 +1,6 @@
 import { TextField, Button, Container, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CreateQuestion.css';
 
 const CreateQuestion = () => {
   const accessToken = localStorage.getItem('access_token');

@@ -11,7 +11,11 @@ const HomePage = () => {
 
   useEffect(() => {
     const getLatestNewsData = () => {
-      const apiUrl = 'https://newsapi.org/v2/everything?q=university%20of%london&from=2024-02-09&sortBy=publishedAt&apiKey=4f9a2b0c1efd40318cdf751d5b7444f1';
+      const currentDate = new Date();
+      const oneWeekAgo = new Date(currentDate.setDate(currentDate.getDate() - 7));
+      const formattedDate = oneWeekAgo.toISOString().split('T')[0];
+
+      const apiUrl = 'https://newsapi.org/v2/everything?q=university%20of%london&from='+formattedDate+'&sortBy=publishedAt&apiKey=4f9a2b0c1efd40318cdf751d5b7444f1';
       
       fetch(apiUrl)
         .then(response => {
