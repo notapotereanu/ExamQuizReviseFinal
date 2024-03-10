@@ -23,9 +23,22 @@ const QuestionsList = ({ userId }) => {
     fetchQuestions();
   }, [userId]);
 
-  const handleQuestionClick = (questionId) => {
-    navigate(`/question/${questionId}`);
+  const handleQuestionClick = async (questionId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/get_question_details/${questionId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const questionDetails = await response.json();
+      
+      const { module_id, difficulty } = questionDetails;
+  
+      navigate(`/moduleResponse/${module_id}/${difficulty}/${questionId}`);
+    } catch (error) {
+      console.error("Fetch error:", error.message);
+    }
   };
+  
 
   return (
     <div>

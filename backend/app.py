@@ -238,7 +238,6 @@ def get_questions_details(user_id):
 def add_question():
     try:
         data = request.get_json()
-        print(data)
         question = data['question']
         author_id = data['author_id']
         module_id = data['module_id']
@@ -286,6 +285,32 @@ def get_module_details(module_id):
         return jsonify(module_details)
     else:
         return jsonify({'error': 'Module not found'}), 404
+
+@app.route('/api/get_question_details/<int:question_id>', methods=['GET'])
+def get_question_details(question_id):
+    conn = get_db_connection()
+    question = conn.execute('SELECT * FROM questions WHERE question_id = ?', (question_id,)).fetchone()
+    conn.close()
+
+    if question is not None:
+        # Convert the row object to a dict to jsonify it
+        question_details = {key: question[key] for key in question.keys()}
+        return jsonify(question_details)
+    else:
+        return jsonify({'error': 'Question not found'}), 404
+    
+@app.route('/questions/<module_id>/<int:difficulty>')
+def get_questions_by_module_id_and_difficulty(module_id, difficulty):
+    conn = get_db_connection()
+    questions = conn.execute('''
+    SELECT question_id, question,question,answers,linkToVideo, totalLikes, totalDislikes, totalAttempts, totalSolvedTimes FROM questions
+    WHERE module_id = ? AND difficulty = ?
+    ''', (module_id, difficulty)).fetchall()
+    conn.close()
+
+    # Convert the Row objects to dictionaries
+    questions_list = [dict(question) for question in questions]
+    return jsonify(questions_list)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -20,7 +20,6 @@ const Leaderboard = ({ }) => {
         }));
 
         setLeaderboardData(finalData);
-        console.log(finalData);
       })
       .catch(error => console.error('Error:', error));
   }, []);

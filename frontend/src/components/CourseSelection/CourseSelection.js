@@ -35,7 +35,6 @@ const CourseSelection = () => {
       try {
         const response = await fetch('http://127.0.0.1:5000/api/modules');
         const data = await response.json();
-        console.log(data);
         setModules(data.modules);
       } catch (error) {
         console.error('Could not fetch modules:', error);

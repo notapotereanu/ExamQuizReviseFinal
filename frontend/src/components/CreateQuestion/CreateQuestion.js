@@ -71,7 +71,6 @@ const CreateQuestion = () => {
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log(jsonResponse.message);
         setQuestionData({ // Reset the form after successful submission
           module_id: '',
           question: '',
