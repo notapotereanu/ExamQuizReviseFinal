@@ -59,6 +59,7 @@ export const useAuth = () => {
       setUserId(user_id); 
       setIsLoggedIn(true);
       setOpenLoginDialog(false);
+      navigate('/');
     } catch (error) {
       console.error('Login failed:', error);
       setFeedbackMessage('Login failed. Please try again.');

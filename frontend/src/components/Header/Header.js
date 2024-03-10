@@ -15,6 +15,20 @@ const Header = () => {
     navigate(`/user/${currentUser}`);
   };
 
+  const navigateToRandomCourse = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/api/random_module');
+      const data = await response.json();
+      if (data.module_id) {
+        navigate(`/courseInformation/${data.module_id}`);
+      } else {
+        console.error('No module found');
+      }
+    } catch (error) {
+      console.error('Error fetching random module:', error);
+    }
+  };
+
   const {
     userId,
     isLoggedIn,
@@ -56,8 +70,8 @@ const Header = () => {
         <Button color="inherit" onClick={() => navigate('/create-question')}>
         Create Question
         </Button>
-        <Button color="inherit">Random Course</Button>
-        <Button color="inherit">List Courses</Button>
+        <Button color="inherit" onClick={() => navigateToRandomCourse()}>Random Course</Button>
+        <Button color="inherit" onClick={() => navigate('/courseSelection')}>List Courses</Button>
         <div style={{ display: 'flex', alignItems: 'center', flexGrow: 1, marginLeft: '20px' }}>
           <SearchIcon />
           <Autocomplete

@@ -100,11 +100,20 @@ def register_user():
 
     return jsonify({"message": "User registered successfully"}), 201
 
+@app.route('/api/random_module')
+def random_module():
+    conn = get_db_connection()
+    module = conn.execute('SELECT module_id FROM module ORDER BY RANDOM() LIMIT 1').fetchone()
+    conn.close()
+    if module:
+        return jsonify(module_id=module['module_id'])
+    else:
+        return jsonify(message="No modules found"), 404
+    
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data.get('username')
-    print(username)
     password = data.get('password')
 
     conn = get_db_connection()
@@ -175,7 +184,6 @@ def update_user():
     user_id = data.get('user_id')
     email = data.get('email')
     new_password = data.get('password')
-    print(data)
     conn = get_db_connection()
 
     try:
@@ -232,14 +240,32 @@ def add_question():
         data = request.get_json()
         print(data)
         question = data['question']
-        author_id = "1"  # Replace with dynamic user identification mechanism
+        author_id = data['author_id']
         module_id = data['module_id']
-        answers = json.dumps(data.get('answers', []))  # Using .get() to provide default values if not present
-        difficulty = data.get('difficulty', 1)  # Defaulting to 1 if not provided
+        correctAnswer = data['correctAnswer']
+
+        # Load answers from JSON string to Python list
+        answers_list = json.loads(data.get('answers', '[]'))
+
+        # Remove duplicates while preserving order and include the correctAnswer if not already in list
+        seen = set()
+        options = [x for x in answers_list if not (x in seen or seen.add(x))]
+        if correctAnswer not in options:
+            options.append(correctAnswer)
+
+        # Construct the answers structure
+        formatted_answers = json.dumps({"correct": correctAnswer, "options": options})
+
+        difficulty_levels = {
+            'basic': 1,
+            'intermediate': 2,
+            'advanced': 3
+        }
+        difficulty = difficulty_levels.get(data.get('difficulty'), 1)
 
         conn = get_db_connection()
         conn.execute('INSERT INTO questions (question, author_id, module_id, answers, difficulty) VALUES (?, ?, ?, ?, ?)', 
-                     (question, author_id, module_id, answers, difficulty))
+                     (question, author_id, module_id, formatted_answers, difficulty))
         conn.commit()
         conn.close()
 
@@ -247,6 +273,7 @@ def add_question():
     except Exception as e:
         print(e)  # For debugging
         return jsonify({'error': 'Failed to add question'}), 500
+
     
 @app.route('/api/modules/<module_id>', methods=['GET'])
 def get_module_details(module_id):

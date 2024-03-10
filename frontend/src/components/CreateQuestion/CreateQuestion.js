@@ -1,18 +1,22 @@
 import { TextField, Button, Container, Typography, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './CreateQuestion.css';
 
 const CreateQuestion = () => {
+  const accessToken = localStorage.getItem('access_token');
+  const userId = localStorage.getItem('user_id');
+  const [modules, setModules] = useState([]);
+  const [selectedModule, setSelectedModule] = useState({ module_id: '', module_name: '' });
+
   const [questionData, setQuestionData] = useState({
     module_id: '',
     question: '',
-    answers: ['', '', '', ''], // Correctly initializing answers as an array of strings
+    author_id: userId,
+    answers: ['', '', '', ''],
     correctAnswer: '',
     difficulty: '',
   });
-
-  const [modules, setModules] = useState([]);
-  const [selectedModule, setSelectedModule] = useState({ module_id: '', module_name: '' });
 
   // Successful submition response
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -71,6 +75,7 @@ const CreateQuestion = () => {
         setQuestionData({ // Reset the form after successful submission
           module_id: '',
           question: '',
+          author_id: userId,
           answers: ['', '', '', ''],
           correctAnswer: '',
           difficulty: '',
@@ -89,6 +94,14 @@ const CreateQuestion = () => {
     }
   };
   
+  if (!accessToken || !userId) {
+    return (
+      <Container maxWidth="sm" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Typography variant="h6">User not logged In. Maybe create an account or log in to continue.</Typography>
+      </Container>
+    );
+  }
+
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" style={{ textAlign: 'center', margin: '20px 0' }}>
