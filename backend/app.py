@@ -188,11 +188,12 @@ def update_user():
     conn.close()
     return jsonify({"message": "User updated successfully"}), 200
 
-@app.route('/get_questions_details/<int:user_id>')
+@app.route('/api/get_questions_details/<int:user_id>')
 def get_questions_details(user_id):
     conn = get_db_connection()
     
     user_profile = conn.execute('SELECT * FROM users WHERE user_id = ?', (user_id,)).fetchone()
+    
     
     if not user_profile:
         return jsonify({"error": "User not found"}), 404
@@ -216,7 +217,7 @@ def get_questions_details(user_id):
     for category in questionCategories:
         detailed_questions = []
         for question_id in category['data']:
-            question_details = conn.execute('SELECT question,question_id FROM questions WHERE question_id = ?', (question_id,)).fetchone()
+            question_details = conn.execute('SELECT question, question_id FROM questions WHERE question_id = ?', (question_id,)).fetchone()
             if question_details:
                 detailed_questions.append(dict(question_details))
         category['data'] = detailed_questions

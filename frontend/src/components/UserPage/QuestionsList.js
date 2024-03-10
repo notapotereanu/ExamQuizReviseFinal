@@ -9,7 +9,7 @@ const QuestionsList = ({ userId }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/get_questions_details/${userId}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/get_questions_details/${userId}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
