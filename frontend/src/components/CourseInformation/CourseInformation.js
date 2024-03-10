@@ -34,7 +34,7 @@ const CourseInformation = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '90px' }}>
-      <h2>{moduleDetails.module_name}</h2>
+  <h2>{`Module: ${module_id} - ${moduleDetails.module_name}`}</h2>
       <div style={{ maxWidth: '600px', margin: 'auto', marginTop: '20px' }}>
         <p>{moduleDetails.module_description}</p>
         {moduleDetails.linkToSyllabus && (
