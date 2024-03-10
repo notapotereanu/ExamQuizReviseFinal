@@ -16,7 +16,8 @@ const ModuleResponse = () => {
   
   useEffect(() => {
     console.log(module_id, module_difficulty, question_id)
-    fetch(`http://localhost:5000/questions/${module_id}/${module_difficulty}`)
+    fetch(`http://127.0.0.1:5000/questions/${module_id}/${module_difficulty}`)
+
       .then(response => response.json())
       .then(data => {
         const parsedQuestions = data.map(question => ({
