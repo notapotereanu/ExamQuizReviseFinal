@@ -42,6 +42,7 @@ CREATE TABLE quiz (
   quiz_id INTEGER PRIMARY KEY,
   module_id TEXT,
   questionsPool TEXT,
+  question_difficulty TEXT,
   FOREIGN KEY (module_id) REFERENCES module (module_id)
 );
 
@@ -90,27 +91,29 @@ INSERT INTO module (module_id, module_name,module_level, module_description, lin
 'https://d3c33hcgiwev3.cloudfront.net/g2lqekRNSmypanpETfpsMg_c00b9c1f57884860a7fbc1d2ca630eca_CM2040_Databases-networks-and-the-web-Syllabus.pdf?Expires=1710201600&Signature=AKBIYtMktHH1f-yGkOe00AWvfJN7Qa35Ra20zzlyzPm282pQKjyUHPzPxu3ZruRhSwj6TSB7R3AZlqtPxE5QoiLEFNBiDHzxI307QP0PE~ukVWXoztKQSnXTgExCgbbuKjLuI9PWk05VxgSLlpHl3m~n3-5tYXLPbVJgGo5uPsM_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A');
 
 INSERT INTO questions (question_id, author_id, module_id, question, answers, difficulty, linkToVideo, totalLikes, totalDislikes, totalAttempts, totalSolvedTimes) VALUES
-(1, 1, "1", 'What is 2+2?', '{"correct":"4","options":["3","4","5"]}', 1, 'http://example.com/video/1', 10, 2, 15, 5),
-(2, 2, "2", 'What is the capital of France?', '{"correct":"Paris","options":["Paris","London","Berlin"]}', 2, 'http://example.com/video/2', 20, 1, 20, 10),
-(3, 3, "3", 'What is the capital of Germany?', '{"correct":"Berlin","options":["Paris","London","Berlin"]}', 2, 'http://example.com/video/3', 30, 3, 25, 15),
-(4, 4, "1", 'What is the capital of Italy?', '{"correct":"Rome","options":["Paris","Rome","Berlin"]}', 2, 'http://example.com/video/4', 40, 4, 30, 20),
-(5, 5, "1", 'What is the capital of Spain?', '{"correct":"Madrid","options":["Madrid","Rome","Berlin"]}', 2, 'http://example.com/video/5', 50, 5, 35, 25),
-(6, 1, "1", 'What is the capital of Portugal?', '{"correct":"Lisbon","options":["Madrid","Rome","Lisbon"]}', 2, 'http://example.com/video/6', 60, 6, 40, 30),
-(7, 2, "1", 'What is the capital of Greece?', '{"correct":"Athens","options":["Madrid","Athens","Lisbon"]}', 2, 'http://example.com/video/7', 70, 7, 45, 35),
-(8, 3, "1", 'What is the capital of Belgium?', '{"correct":"Brussels","options":["Brussels","Athens","Lisbon"]}', 2, 'http://example.com/video/8', 80, 8, 50, 40),
-(9, 3, "1", 'What is the capital of Netherlands?', '{"correct":"Amsterdam","options":["Brussels","Amsterdam","Lisbon"]}', 2, 'http://example.com/video/9', 90, 9, 55, 45),
-(10, 2, "1", 'What is the capital of Denmark?', '{"correct":"Copenhagen","options":["Brussels","Copenhagen","Lisbon"]}', 2, 'http://example.com/video/10', 100, 10, 60, 50),
-(11, 1, "1", 'What is the capital of Sweden?', '{"correct":"Stockholm","options":["Brussels","Stockholm","Lisbon"]}', 2, 'http://example.com/video/11', 110, 11, 65, 55),
-(12, 2, "1", 'What is the capital of Norway?', '{"correct":"Oslo","options":["Brussels","Oslo","Lisbon"]}', 2, 'http://example.com/video/12', 120, 12, 70, 60),
-(13, 3, "1", 'What is the capital of Finland?', '{"correct":"Helsinki","options":["Brussels","Helsinki","Lisbon"]}', 2, 'http://example.com/video/13', 130, 13, 75, 65),
-(14, 3, "1", 'What is the capital of Ireland?', '{"correct":"Dublin","options":["Brussels","Dublin","Lisbon"]}', 2, 'http://example.com/video/14', 140, 14, 80, 70),
-(15, 1, "1", 'What is the capital of Poland?', '{"correct":"Warsaw","options":["Brussels","Warsaw","Lisbon"]}', 2, 'http://example.com/video/15', 150, 15, 85, 75),
-(16, 1, "1", 'What is the capital of Austria?', '{"correct":"Vienna","options":["Brussels","Vienna","Lisbon"]}', 2, 'http://example.com/video/16', 160, 16, 90, 80),
-(17, 1, "1", 'What is the capital of Hungary?', '{"correct":"Budapest","options":["Brussels","Budapest","Lisbon"]}', 2, 'http://example.com/video/17', 170, 17, 95, 85);
+(1, 1, 'CM1020', 'If set A = {2, 9, 5, 2}, then the number of subsets which can be formed from A is:', '{"correct":"3","options":["3","8","16","4"]}', 1, 'http://example.com/video/1', 10, 2, 15, 5),
+(2, 2, 'CM1020', 'We have a class of 40 students. How many ways are there of choosing 2 representatives from the class to take part in a college committee?', '{"correct":"780","options":["1560","780","700","520"]}', 2, 'http://example.com/video/2', 20, 1, 20, 10),
+(3, 3, 'CM1020', 'Which one of the following statements about a binary search tree is true?', '{"correct":"The right child is always lesser than its parent","options":["The left child is always greater than its parent","The left and right sub-trees are not necessarily binary search trees","The left and right sub-trees are also  binary search trees","The right child is always lesser than its parent"]}', 5, 'http://example.com/video/3', 30, 3, 25, 15),
+(4, 4, 'CM1020', 'Which one of the following statements about a binary search  tree is NOT  true?', '{"correct":"Every non-root node has exactly one parent","options":["Every non-root node has exactly one parent","Every non-root node has exactly one parent","Every binary search tree has exactly one root element","Every binary search tree has exactly one root element","Every binary search tree has exactly one root element"]}', 9, 'http://example.com/video/4', 40, 4, 30, 20),
+(5, 5, 'CM1020', 'What is the height of a binary search tree with 2,000 records?', '{"correct":"11","options":["10","20","11","15"]}', 1, 'http://example.com/video/5', 50, 5, 35, 25),
+(6, 1, 'CM1020', 'What is the cardinality of the power set of a set with n elements?', '{"correct":"2^n","options":["2^n","n! (n factorial)","n^2","n"]}', 6, 'http://example.com/video/6', 60, 6, 40, 30),
+(7, 2, 'CM1005', 'What is the purpose of a loop in programming?', '{"correct": "Integrated Development Environment", "options": ["Interactive Design Environment", "Integrated Development Environment", "Interface Development Engine", "Intelligent Design Engine"]}', 1, 'http://example.com/video/7', 70, 7, 45, 35),
+(8, 3, 'CM1005', 'Which of the following is not a data type in programming?', '{"correct": "Alphabet", "options": ["Integer", "Boolean", "Alphabet", "Float"]}', 2, 'http://example.com/video/8', 80, 8, 50, 40),
+(9, 3, 'CM1005', 'What does HTML stand for?', '{"correct": "HyperText Markup Language", "options": ["Hyperlink and Text Markup Language", "HyperText Markup Language", "High-Level Textual Markup Language", "Hyper Transferable Markup Language"]}', 5, 'http://example.com/video/9', 90, 9, 55, 45),
+(10, 2, 'CM1005', 'What is the purpose of the "if" statement in programming?', '{"correct": "To perform conditional execution", "options": ["To define a function", "To declare a variable", "To perform conditional execution", "To create a loop"]}', 6, 'http://example.com/video/10', 100, 10, 60, 50),
+(11, 1, 'CM1005', 'In programming, what is the significance of the "return" statement?', '{"correct": "To specify the output of a function", "options": ["To terminate the program", "To print output on the console", "To exit a loop", "To specify the output of a function"]}', 9, 'http://example.com/video/11', 110, 11, 65, 55),
+(12, 2, 'CM1005', 'What is the purpose of the "else" statement in programming?', '{"correct": "To specify an alternative action if the condition of the preceding ''if'' statement is false", "options": ["To define a new function", "To print output on the console", "To create a loop", "To specify an alternative action if the condition of the preceding if statement is false"]}', 10, 'http://example.com/video/12', 120, 12, 70, 60),
+(13, 3, 'CM1025', 'What is the primary purpose of an operating system?', '{"correct": "To manage computer hardware and provide services for computer programs", "options": ["To create user interfaces", "To develop software applications", "To manage computer hardware and provide services for computer programs", "To design computer networks"]}', 2, 'http://example.com/video/13', 130, 13, 75, 65),
+(14, 3, 'CM1025', 'In computer science, what does the acronym "CPU" stand for?', '{"correct": "Central Processing Unit", "options": ["Central Processing Unit", "Computer Programming Unit", "Central Program Unit", "Central Peripheral Unit"]}', 3, 'http://example.com/video/14', 140, 14, 80, 70),
+(15, 1, 'CM1025', 'Which data structure follows the Last In, First Out (LIFO) principle?', '{"correct": "Stack", "options": ["Queue", "Linked List", "Stack", "Tree"]}', 5, 'http://example.com/video/15', 150, 15, 85, 75),
+(16, 1, 'CM1025', 'What is the purpose of a compiler in programming?', '{"correct": "To translate high-level programming code into machine code", "options": ["To execute code line by line", "To debug software", "To translate high-level programming code into machine code", "To manage database operations"]}', 6, 'http://example.com/video/16', 160, 16, 90, 80),
+(17, 1, 'CM1025', 'Which programming paradigm emphasizes immutability and declarative coding?', '{"correct": "Functional Programming", "options": ["Object-Oriented Programming", "Procedural Programming", "Functional Programming", "Scripting"]}', 8, 'http://example.com/video/16', 160, 16, 90, 80),
+(18, 1, 'CM1025', 'What is the purpose of the binary search algorithm?', '{"correct": "Efficiently find a specific element in a sorted list", "options": ["Sort a list of elements", "Efficiently find a specific element in a sorted list", "Perform arithmetic operations", "Create a random number"]}', 10, 'http://example.com/video/17', 170, 17, 95, 85);
 
-INSERT INTO quiz (quiz_id, module_id, questionsPool) VALUES
-(1, "1", '["1","2"]'),
-(2, "2", '["2"]');
+INSERT INTO quiz (quiz_id, module_id, questionsPool,question_difficulty) VALUES
+(1, 'CM1020', '["1","2","3","4","5","6"]', '["1","2","5","9","1","6"]' ),
+(2, 'CM1005', '["7","8","9","10","11","12"]', '["1","2","5","6","9","10"]' ),
+(3, 'CM1025', '["13","14","15","16","17","18"]', '["2","3","5","6","8","10"]' );
 
 INSERT INTO mockArticles (articles_id, content) VALUES
 (1, '{"title":"Sample Article", "body":"This is a sample article for demonstration."}');
