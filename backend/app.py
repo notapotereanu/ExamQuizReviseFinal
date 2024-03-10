@@ -4,6 +4,7 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, create_access_token
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -126,6 +127,29 @@ def get_modules():
     modules_list = [dict(module) for module in modules]
     
     return jsonify(modules=modules_list)
+
+
+@app.route('/api/add-question', methods=['POST'])
+def add_question():
+    try:
+        data = request.get_json()
+        print(data)
+        question = data['question']
+        author_id = "1"  # Replace with dynamic user identification mechanism
+        module_id = data['module_id']
+        answers = json.dumps(data.get('answers', []))  # Using .get() to provide default values if not present
+        difficulty = data.get('difficulty', 1)  # Defaulting to 1 if not provided
+
+        conn = get_db_connection()
+        conn.execute('INSERT INTO questions (question, author_id, module_id, answers, difficulty) VALUES (?, ?, ?, ?, ?)', 
+                     (question, author_id, module_id, answers, difficulty))
+        conn.commit()
+        conn.close()
+
+        return jsonify({'message': 'Question added successfully'}), 201
+    except Exception as e:
+        print(e)  # For debugging
+        return jsonify({'error': 'Failed to add question'}), 500
 
 
 if __name__ == '__main__':

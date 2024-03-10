@@ -16,6 +16,7 @@ CREATE TABLE users (
 
 CREATE TABLE module (
   module_id TEXT PRIMARY KEY,
+  
   module_name TEXT,
   module_level INTEGER,
   module_description TEXT,
@@ -70,7 +71,7 @@ INSERT INTO module (module_id, module_name,module_level, module_description, lin
 'https://d3c33hcgiwev3.cloudfront.net/Er3JTvI4Tlq9yU7yOP5a1A_c1ee8e2ce4a94c79b8385ea967f94059_ASP_syllabus.pdf?Expires=1710115200&Signature=TzvxR7XMoQpeCj75kRX3FJ8iieSnyvLfl0Ox1hmMxsHtf0CTFgLfEYyYVjJ-QE3o~ntWJu2xno9FrQ9VVUa8pq2fnHrdSA4Dc7jiUs7wcVvuVFbPJO4YwH6s1Iu4KRD1a7hLBUSaUSnZ0if7DpVmi585gP5pJhuJ8gNjuKUZHWo_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A');
 
 INSERT INTO questions (question_id, author_id, module_id, question, answers, difficulty, linkToVideo, totalLikes, totalDislikes, totalAttempts, totalSolvedTimes) VALUES
-(1, 1, "1", 'What is 2+2?', '{"correct":"4","options":["3","4","5"]}', 1, 'http://example.com/video/1', 10, 2, 15, 5),
+(1, 1, "CM2002", 'What is 2+2?', '{"correct":"4","options":["3","4","5"]}', 1, 'http://example.com/video/1', 10, 2, 15, 5),
 (2, 2, "2", 'What is the capital of France?', '{"correct":"Paris","options":["Paris","London","Berlin"]}', 2, 'http://example.com/video/2', 20, 1, 20, 10),
 (3, 3, "3", 'What is the capital of Germany?', '{"correct":"Berlin","options":["Paris","London","Berlin"]}', 2, 'http://example.com/video/3', 30, 3, 25, 15),
 (4, 4, "1", 'What is the capital of Italy?', '{"correct":"Rome","options":["Paris","Rome","Berlin"]}', 2, 'http://example.com/video/4', 40, 4, 30, 20),
