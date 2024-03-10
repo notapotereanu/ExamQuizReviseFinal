@@ -15,7 +15,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/courseInformation/:courseId" element={<CourseInformation />} />
+        <Route path="/courseInformation/:module_id" element={<CourseInformation />} />
         <Route path="/courseSelection" element={<CourseSelection />} />
         <Route path="/quizCreation" element={<QuizCreation />} />
         <Route path="/quizResponse" element={<QuizResponse />} />

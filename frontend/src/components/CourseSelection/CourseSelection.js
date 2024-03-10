@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography, Button, Container, Box, Paper } from '@material-ui/core';
@@ -44,13 +45,10 @@ const CourseSelection = () => {
     fetchModules();
   }, []);
 
-  const handleButtonClick = (module) => {
-    navigate(`/course-information/${module.module_name}`);
-  };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '80px' }}>
-      <Container >
+      <Container>
         {modules && modules.length > 0 ? (
           modules.map((module) => (
             <Paper key={module.module_id} className={classes.sectionContainer} elevation={3}>
@@ -59,9 +57,9 @@ const CourseSelection = () => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => handleButtonClick(module)}
-                >
-                  {`${module.module_name} Details`}
+                  onClick={() => navigate(`/courseInformation/${module.module_id}`)}
+                  >
+                    {`${module.module_name} Details`}
                 </Button>
               </Box>
             </Paper>

@@ -150,7 +150,18 @@ def add_question():
     except Exception as e:
         print(e)  # For debugging
         return jsonify({'error': 'Failed to add question'}), 500
+    
+@app.route('/api/modules/<module_id>', methods=['GET'])
+def get_module_details(module_id):
+    conn = get_db_connection()
+    module = conn.execute('SELECT * FROM module WHERE module_id = ?', (module_id,)).fetchone()
+    conn.close()
 
+    if module is not None:
+        module_details = dict(module)
+        return jsonify(module_details)
+    else:
+        return jsonify({'error': 'Module not found'}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
