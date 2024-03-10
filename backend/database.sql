@@ -51,7 +51,7 @@ CREATE TABLE mockArticles (
 );
 
 INSERT INTO users (user_id, username, password, questionsIDTaken, questionsIDAttempted, questionsIDLiked, questionsIDDisliked, questionsIDStared) VALUES
-(1, 'Andrian', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
+(1, 'demo', 'demo', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
 (2, 'Klara', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
 (3, 'Rishab', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
 (4, 'Bruce', 'pass123', '[1,2]', '[1,2,3]', '[1]', '[]', '[2]'),
