@@ -78,6 +78,10 @@ const ModuleResponse = () => {
             <Question
               question={questions[currentIndex].question}
               answers={questions[currentIndex].answers}
+              totalAttempts={questions[currentIndex].totalAttempts}
+              totalSolvedTimes={questions[currentIndex].totalSolvedTimes}
+              totalLikes={questions[currentIndex].totalLikes}
+              totalDislikes={questions[currentIndex].totalDislikes}
               selectedOption={selectedOption}
               handleOptionSelect={handleOptionSelect}
               handleSubmit={handleSubmit}
