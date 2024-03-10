@@ -1,6 +1,6 @@
 // CourseInformation.js
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const CourseInformation = () => {
   // Retrieve module_id from URL parameters
@@ -21,6 +21,19 @@ const CourseInformation = () => {
     fetchModuleDetails();
   }, [module_id]);
 
+  const navigate = useNavigate();
+
+  // Handle the button click and navigate to the "course-section" page
+  const handleDetailsClick = () => {
+    navigate('/create-question');
+  };
+
+  // Handle the button click and navigate to the "/moduleResponse/:module_id/:difficulty" path
+  const handleDifficultyClick = (difficulty) => {
+    // Replace '/moduleResponse/:module_id/:difficulty' with the actual path you want to navigate to
+    navigate(`/moduleResponse/${module_id}/${difficulty}`);
+  };
+
   const buttonStyle = {
     backgroundColor: 'blue',
     color: 'white',
@@ -34,7 +47,7 @@ const CourseInformation = () => {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '90px' }}>
-  <h2>{`Module: ${module_id} - ${moduleDetails.module_name}`}</h2>
+      <h2>{`Module: ${module_id} - ${moduleDetails.module_name}`}</h2>
       <div style={{ maxWidth: '600px', margin: 'auto', marginTop: '20px' }}>
         <p>{moduleDetails.module_description}</p>
         {moduleDetails.linkToSyllabus && (
@@ -48,11 +61,26 @@ const CourseInformation = () => {
         <div style={{ marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2>Choose Quiz</h2>
           <div style={{ marginBottom: '40px', width: '100%' }}>
-            <button style={buttonStyle}>Basic</button>
-            <button style={buttonStyle}>Intermediate</button>
-            <button style={buttonStyle}>Advanced</button>
+            <button
+              style={{ ...buttonStyle, backgroundColor: 'blue' }}
+              onClick={() => handleDifficultyClick('basic')}>
+              Basic
+            </button>
+            <button
+              style={{ ...buttonStyle, backgroundColor: 'blue' }}
+              onClick={() => handleDifficultyClick('intermediate')}>
+              Intermediate
+            </button>
+            <button
+              style={{ ...buttonStyle, backgroundColor: 'blue' }}
+              onClick={() => handleDifficultyClick('advanced')}>
+              Advanced
+            </button>
           </div>
-          <button style={{ ...buttonStyle, backgroundColor: 'green' }}>
+
+          <button
+            style={{ ...buttonStyle, backgroundColor: 'green' }}
+            onClick={handleDetailsClick}>
             Create Your Quiz Question
           </button>
         </div>

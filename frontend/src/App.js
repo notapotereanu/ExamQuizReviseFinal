@@ -18,12 +18,12 @@ function App() {
         <Route path="/courseInformation/:module_id" element={<CourseInformation />} /> --klara
         <Route path="/courseSelection" element={<CourseSelection />} /> --klara
         <Route path="/quizResponse/:question_id" element={<QuizResponse />} /> --todo
-        <Route path="/moduleResponse/:module_id/:module_difficulty" element={<ModuleResponse />} /> --todo
+        <Route path="/moduleResponse/:module_id/:difficulty" element={<ModuleResponse />} /> --todo
         <Route path="/create-question" element={<CreateQuestion />} />--ok
         <Route path="/user/:userId" element={<UserPage />} />--ok
       </Routes>
       <Footer />
-    </Router>
+    </Router> 
   );
 }
 export default App;
