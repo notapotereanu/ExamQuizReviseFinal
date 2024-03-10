@@ -3,6 +3,7 @@ import HomePage from './components/HomePage/HomePage';
 import CourseInformation from './components/CourseInformation/CourseInformation';
 import CourseSelection from './components/CourseSelection/CourseSelection';
 import QuizResponse from './components/QuizResponse/QuizResponse';
+import ModuleResponse from './components/QuizResponse/ModuleResponse';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import UserPage from './components/UserPage/UserPage';
@@ -13,11 +14,12 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />--ok
         <Route path="/courseInformation/:module_id" element={<CourseInformation />} /> --klara
         <Route path="/courseSelection" element={<CourseSelection />} /> --klara
-        <Route path="/quizResponse" element={<QuizResponse />} /> --todo
-        <Route path="/create-question" element={<CreateQuestion />} />--doing
+        <Route path="/quizResponse/:question_id" element={<QuizResponse />} /> --todo
+        <Route path="/moduleResponse/:module_id/:module_difficulty" element={<ModuleResponse />} /> --todo
+        <Route path="/create-question" element={<CreateQuestion />} />--ok
         <Route path="/user/:userId" element={<UserPage />} />--ok
       </Routes>
       <Footer />
