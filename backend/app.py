@@ -103,6 +103,7 @@ def register_user():
 def login():
     data = request.get_json()
     username = data.get('username')
+    print(username)
     password = data.get('password')
 
     conn = get_db_connection()
@@ -140,7 +141,7 @@ def get_public_profile(user_id):
 def get_user_profile():
     current_user = get_jwt_identity()
     conn = get_db_connection()
-    user = conn.execute('SELECT * FROM users WHERE /api/user/profile = ?', (current_user,)).fetchone()
+    user = conn.execute('SELECT * FROM users WHERE username = ?', (current_user,)).fetchone()
     conn.close()
     if user:
         return jsonify({
@@ -167,6 +168,24 @@ def get_modules():
     
     return jsonify(modules=modules_list)
 
+@app.route('/api/update_user', methods=['POST'])
+def update_user():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    email = data.get('email')
+    new_password = data.get('password')
+    print(data)
+    conn = get_db_connection()
+
+    try:
+        conn.execute('UPDATE users SET email = ?, password = ? WHERE user_id = ?', (email, new_password, user_id))
+        conn.commit()
+    except sqlite3.Error as e:
+        conn.close()
+        return jsonify({"error": "Database error", "message": str(e)}), 500
+    
+    conn.close()
+    return jsonify({"message": "User updated successfully"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

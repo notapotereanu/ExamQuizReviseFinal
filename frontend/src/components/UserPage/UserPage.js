@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import LoggedUser from './LoggedUser';
-import ViewingOtherUser from './ViewingOtherUser';
+import LoggedUser from './LoggedUser/LoggedUser';
+import ViewingOtherUser from './ViewingOtherUser/ViewingOtherUser';
 
 const UserPage = () => {
   const { userId } = useParams();
   const currentUser = localStorage.getItem('user_id');
   const [userData, setUserData] = useState(null);
+  const [isOwnProfile, setIsOwnProfile] = useState(false);
+
+
+  useEffect(() => { 
+    fetchUserData();
+  }, [userId, currentUser]);
 
   const fetchUserData = async () => {
-    const apiUrl = userId === currentUser ? `http://127.0.0.1:5000/api/user/profile` : `http://127.0.0.1:5000/api/user/public-profile/${userId}`;
+    setIsOwnProfile(userId == currentUser);
+    const apiUrl = isOwnProfile ? `http://127.0.0.1:5000/api/user/profile` : `http://127.0.0.1:5000/api/user/public-profile/${userId}`;
     console.log(apiUrl)
     const accessToken = localStorage.getItem('access_token');
     try {
@@ -38,7 +45,7 @@ const UserPage = () => {
 
   return (
     <div>
-      {userId === currentUser ? (
+      {isOwnProfile ? (
         <LoggedUser userData={userData} />
       ) : (
         <ViewingOtherUser userData={userData} />

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,6 +19,8 @@ export const useAuth = () => {
     email: '',
     password: '',
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
@@ -81,7 +84,9 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id');
     setIsLoggedIn(false);
+    navigate('/');
   };
 
   return {

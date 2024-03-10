@@ -14,13 +14,12 @@ function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/courseInformation/:courseId" element={<CourseInformation />} />
-        <Route path="/courseSelection" element={<CourseSelection />} />
-        <Route path="/quizCreation" element={<QuizCreation />} />
-        <Route path="/quizResponse" element={<QuizResponse />} />
-        <Route path="/create-question" element={<CreateQuestion />} />
-        <Route path="/user/:userId" element={<UserPage />} />
+        <Route path="/" element={<HomePage />} />                                     -- Andrian
+        <Route path="/courseInformation/:courseId" element={<CourseInformation />} /> -- Klara   TODO ()
+        <Route path="/courseSelection" element={<CourseSelection />} />               -- Klara   TODO (To link the user and gather information about courses)
+        <Route path="/quizResponse" element={<QuizResponse />} />                     -- Andrian TODO (To initialize)
+        <Route path="/create-question" element={<CreateQuestion />} />                -- Burce   TODO (To link the user)
+        <Route path="/user/:userId" element={<UserPage />} />                         -- Andrian
       </Routes>
       <Footer />
     </Router>
