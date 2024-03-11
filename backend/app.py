@@ -10,7 +10,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 app = Flask(__name__)
 CORS(app)
 bcrypt = Bcrypt(app)
-app.config['JWT_SECRET_KEY'] = 'oidsbviowebv80q28niosn3fc23vc32c'  # Change this to a random secret key
+app.config['JWT_SECRET_KEY'] = 'oidsbviowebv80q28niosn3fc23vc32c'  
 jwt = JWTManager(app)
 
 def get_db_connection():
@@ -38,18 +38,15 @@ def get_questions():
 
 @app.route('/api/search', methods=['GET'])
 def search():
-    query = request.args.get('query', '')  # Get the search query from URL parameters
+    query = request.args.get('query', '')  
     conn = get_db_connection()
 
-    # Search for users
     users = conn.execute('SELECT * FROM users WHERE username LIKE ?', ('%' + query + '%',)).fetchall()
 
-    # Search for quizzes by module title
     quizzes = conn.execute('SELECT * FROM module WHERE module_name LIKE ?', ('%' + query + '%',)).fetchall()
 
     conn.close()
 
-    # Combine results into a single JSON response
     return jsonify({
         'users': [dict(row) for row in users],
         'quizzes': [dict(row) for row in quizzes]
@@ -59,7 +56,6 @@ def search():
 def leaderboard():
     conn = get_db_connection()
 
-    # get the top five users with most questions written
     leaderboard_query = '''
     SELECT u.username, COUNT(q.question_id) as question_count
     FROM users u
@@ -72,7 +68,6 @@ def leaderboard():
     leaderboard_results = conn.execute(leaderboard_query).fetchall()
     conn.close()
 
-    # Format the results into a list of dictionaries
     leaderboard_data = [{'username': row['username'], 'question_count': row['question_count']} for row in leaderboard_results]
 
     return jsonify(leaderboard_data)
@@ -81,19 +76,15 @@ def leaderboard():
 def register_user():
     data = request.get_json()
     username = data.get('username')
-    email = data.get('email')  # Capture the email from the request
-    password = data.get('password')  # Password is taken directly without hashing
-
-    # Input validation checks should go here (e.g., ensure username, email, and password are not empty)
-
+    email = data.get('email') 
+    password = data.get('password')
+    
     conn = get_db_connection()
-    # Check if username or email already exists to prevent duplicates
     user_or_email_exists = conn.execute('SELECT 1 FROM users WHERE username = ? OR email = ?', (username, email)).fetchone() is not None
     if user_or_email_exists:
         conn.close()
-        return jsonify({"error": "Username or Email already exists"}), 409  # Conflict status code
+        return jsonify({"error": "Username or Email already exists"}), 409 
 
-    # Insert new user into the database with the plain password
     conn.execute('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', (username, email, password))
     conn.commit()
     conn.close()
@@ -109,7 +100,7 @@ def random_module():
         return jsonify(module_id=module['module_id'])
     else:
         return jsonify(message="No modules found"), 404
-    
+
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -125,7 +116,6 @@ def login():
         user_id = user["user_id"]
         return jsonify(access_token=access_token,user_id=user_id), 200
     else:
-        # Authentication failed
         return jsonify({"error": "Invalid username or password"}), 401
 
 @app.route('/api/user/public-profile/<int:user_id>', methods=['GET'])
@@ -173,9 +163,8 @@ def get_modules():
     modules = conn.execute('SELECT * FROM module').fetchall()
     conn.close()
 
-    # Convert the SQL rows to a list of dicts
     modules_list = [dict(module) for module in modules]
-    
+
     return jsonify(modules=modules_list)
 
 @app.route('/api/update_user', methods=['POST'])
@@ -192,17 +181,16 @@ def update_user():
     except sqlite3.Error as e:
         conn.close()
         return jsonify({"error": "Database error", "message": str(e)}), 500
-    
+
     conn.close()
     return jsonify({"message": "User updated successfully"}), 200
 
 @app.route('/api/get_questions_details/<int:user_id>')
 def get_questions_details(user_id):
     conn = get_db_connection()
-    
+
     user_profile = conn.execute('SELECT * FROM users WHERE user_id = ?', (user_id,)).fetchone()
-    
-    
+
     if not user_profile:
         return jsonify({"error": "User not found"}), 404
 
@@ -243,16 +231,13 @@ def add_question():
         module_id = data['module_id']
         correctAnswer = data['correctAnswer']
 
-        # Load answers from JSON string to Python list
         answers_list = json.loads(data.get('answers', '[]'))
 
-        # Remove duplicates while preserving order and include the correctAnswer if not already in list
         seen = set()
         options = [x for x in answers_list if not (x in seen or seen.add(x))]
         if correctAnswer not in options:
             options.append(correctAnswer)
 
-        # Construct the answers structure
         formatted_answers = json.dumps({"correct": correctAnswer, "options": options})
 
         difficulty_levels = {
@@ -270,10 +255,9 @@ def add_question():
 
         return jsonify({'message': 'Question added successfully'}), 201
     except Exception as e:
-        print(e)  # For debugging
+        print(e)  
         return jsonify({'error': 'Failed to add question'}), 500
 
-    
 @app.route('/api/modules/<module_id>', methods=['GET'])
 def get_module_details(module_id):
     conn = get_db_connection()
@@ -293,12 +277,11 @@ def get_question_details(question_id):
     conn.close()
 
     if question is not None:
-        # Convert the row object to a dict to jsonify it
         question_details = {key: question[key] for key in question.keys()}
         return jsonify(question_details)
     else:
         return jsonify({'error': 'Question not found'}), 404
-    
+
 @app.route('/questions/<module_id>/<int:difficulty>')
 def get_questions_by_module_id_and_difficulty(module_id, difficulty):
     conn = get_db_connection()
@@ -308,10 +291,8 @@ def get_questions_by_module_id_and_difficulty(module_id, difficulty):
     ''', (module_id, difficulty)).fetchall()
     conn.close()
 
-    # Convert the Row objects to dictionaries
     questions_list = [dict(question) for question in questions]
     return jsonify(questions_list)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
